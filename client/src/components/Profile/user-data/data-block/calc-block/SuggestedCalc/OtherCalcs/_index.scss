@@ -1,0 +1,25 @@
+.other-calcs {
+    &__link {
+        cursor: pointer;
+        font-size: 1.4rem;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__content:first-child {
+        margin-bottom: 4rem;
+    }
+
+    &-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-x: auto;
+    }
+}
+
+@import "./OtherCalcsContent/index";
+@import "./ReverseCalcsThreholdsSelector/index";

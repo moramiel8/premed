@@ -1,0 +1,65 @@
+.user-data {
+    margin-bottom: 10rem;
+    width: 80rem;
+    margin: auto;
+
+    &__top-bar {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 2rem;
+        column-gap: 2rem;
+    }
+
+    &__data-sections {
+        justify-content: center;
+    }
+
+    @media only screen and (max-width: 800px) {
+        width: 100%;
+    }
+
+    .stats-explanation {
+        border: 2px $main-color solid;
+        padding: 1rem;
+        border-radius: 0.5rem;
+
+        &__important-notice {
+            font-size: 2rem;
+            font-weight: 500;
+            color: $main-color;
+        }
+
+        &__content {
+            padding: 1rem;
+        }
+
+        a,
+        b,
+        &__content__open-calculator {
+            color: $main-color;
+            font-weight: 500;
+        }
+
+        &__content__open-calculator {
+            cursor: pointer;
+        }
+
+        a:hover,
+        &__content__open-calculator:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+.section-data-block {
+    box-shadow: $default-shadow;
+    border-radius: 0.5rem;
+}
+
+@import "./calculator/index";
+@import "./ChooseBaseData/index";
+@import "./data-block/index";
+@import "./TopBar/index";
+@import "./constructors/NewTable/index";
+@import "./Informatives/index";

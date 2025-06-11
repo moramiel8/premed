@@ -1,0 +1,11 @@
+@import "./calc-block/index";
+@import "./slaves/index";
+
+.form-fragment {
+    align-items: center;
+
+    &__status {
+        height: 2rem;
+        width: 2rem;
+    }
+}

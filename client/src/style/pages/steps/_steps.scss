@@ -1,0 +1,58 @@
+.tree-container {
+    display: flex;
+    justify-content: center;
+}
+
+.steps-block {
+    overflow-x: auto;
+    padding: 1rem;
+}
+
+.step-content {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: $default-shadow;
+    margin: auto;
+    width: 70rem;
+
+    @media only screen and (max-width: 700px) {
+        width: 100%;
+    }
+
+    &:hover {
+        .step-title::after {
+            transform: scaleX(1);
+            transform-origin: 100% 50%;
+        }
+    }
+
+    .step-title {
+        display: inline-block;
+        font-size: 3rem;
+        color: #fff;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        background: $main-color;
+        box-shadow: $default-shadow;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }
+
+    &__container {
+        .step-item-content {
+            margin-bottom: 2rem;
+            padding: 3rem;
+        }
+
+        &__uni-content-wrapper {
+            padding: 1rem;
+        }
+    }
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 7rem;
+}

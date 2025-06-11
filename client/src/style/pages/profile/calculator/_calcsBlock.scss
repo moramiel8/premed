@@ -1,0 +1,130 @@
+.exit-calcs-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 1rem;
+    width: 5rem;
+    height: 5rem;
+    background-color: $main-color;
+    box-shadow: $default-shadow;
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: lighten($main-color, 10%);
+    }
+
+    &.display {
+        transform: scale(0.6);
+    }
+
+    &.displayInfo {
+        top: 20px !important;
+    }
+
+    .material-icons {
+        color: #fff;
+        font-size: 2.5rem;
+    }
+}
+
+.calculator-calcs-block {
+    position: fixed;
+    align-items: center;
+    background-color: #fff;
+    width: 100%;
+    transition: all 0.3s ease;
+    height: auto;
+    right: 0;
+    bottom: 0;
+    border-top: 5px solid $main-color;
+    padding: 0.5rem 1rem;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+
+    .calcs-unis-list {
+        grid-template-columns: auto 100px;
+        display: grid;
+        width: 100%;
+    }
+
+    &.display {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &.displayInfo {
+        top: 50px !important;
+    }
+
+    .calcs-list {
+        display: flex;
+        column-gap: 5rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-wrap: wrap;
+        height: 10rem;
+    }
+
+    .uni-name {
+        color: $main-color;
+        font-size: 1.9rem;
+    }
+
+    .uni-calcs-list {
+        display: flex;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+
+        .calculator-calc-item {
+            border-radius: 0.5rem;
+            padding: 3px 1.5rem;
+            min-width: 10rem;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+
+            .calc-name {
+                font-size: 1.2rem;
+            }
+            .calc-value {
+                border-radius: 0.5rem;
+                font-size: 2.2rem;
+            }
+        }
+    }
+
+    .exec-sim-calcs {
+        justify-self: end;
+        align-self: center;
+        z-index: 2;
+        bottom: 80px;
+        left: 30px;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: $main-color;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: $default-shadow;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in;
+
+        .material-icons {
+            color: #fff;
+            font-size: 3.5rem;
+        }
+
+        &:hover {
+            background-color: lighten($main-color, 10%);
+        }
+    }
+}

@@ -1,0 +1,8 @@
+seed
+.env
+something
+client/mobile
+.DS_Store
+node_modules
+env
+build

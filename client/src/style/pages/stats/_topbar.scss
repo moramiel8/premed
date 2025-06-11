@@ -1,0 +1,47 @@
+.tables-choose-list {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+
+    .loading-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .tables-choose-title {
+        color: $main-color;
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+
+    .tables-options {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        margin-right: 1rem;
+
+        @media only screen and (max-width: 900px) {
+            padding: 1rem 0;
+        }
+
+        .table-option-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            color: $main-color;
+            border: 1px solid $main-color;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease-in-out;
+            margin-left: 1rem;
+            min-width: 10rem;
+
+            &.selected {
+                background-color: $main-color;
+                color: #fff;
+            }
+        }
+    }
+}
