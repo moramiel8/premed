@@ -40,7 +40,7 @@ import axios from 'axios';
 import {  setLoader } from '../loader/utils'
 
 export const logout = () => dispatch => {
-    axios.post('/api/auth/logout')
+    axios.post('/auth/logout')
         .then(() => dispatch({
             type: LOGOUT
         }))
@@ -153,7 +153,7 @@ export const editUser = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put('/api/auth/user', body)
+    axios.put('/auth/user', body)
          .then(res => {
             dispatch({
                 type: EDIT_USER_SUCCESS,
@@ -176,7 +176,7 @@ export const changePassword = data => async(dispatch) => {
     const body = JSON.stringify(data)
 
     try {
-        const res = await axios.put('/api/auth/changePassword', body)
+        const res = await axios.put('/auth/changePassword', body)
         dispatch({ type: CHANGE_PASSWORD_SUCCESS })
         dispatch(getMessage(res.data))
     }
@@ -191,7 +191,7 @@ export const requestForgotPasswordEmail = email => async(dispatch) => {
     const body = JSON.stringify(email);
 
     try {
-        const res = await axios.post('/api/auth/forgotPassword', body);
+        const res = await axios.post('/auth/forgotPassword', body);
         dispatch({ type: REQUEST_FORGOT_PASSWORD_SUCCESS });
         dispatch(getMessage(res.data));
     }

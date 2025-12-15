@@ -1,8 +1,22 @@
-seed
-.env
-something
-client/mobile
-.DS_Store
+
+# node
 node_modules
-env
-build
+npm-debug.log
+yarn-error.log
+
+# build outputs
+client/build
+server/build
+
+# env files
+.env
+.env.*
+!.env.example
+
+# docker
+*.log
+data/
+mongo-data/
+
+# OS
+.DS_Store

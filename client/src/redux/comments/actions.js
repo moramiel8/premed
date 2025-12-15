@@ -45,7 +45,7 @@ export const addComment = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/comments', body)
+    axios.post('/comments', body)
          .then(res => dispatch({
              type: COMMENT_ADD,
              payload: res.data
@@ -89,7 +89,7 @@ export const voteComment = id => async(dispatch) => {
 export const deleteComment = id => dispatch => {
     dispatch(commentLoad());
 
-    axios.delete(`api/comments/${id}`)
+    axios.delete(`/api/comments/${id}`)
          .then(res => {
              dispatch({
                  type: COMMENT_DELETE,

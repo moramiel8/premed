@@ -64,7 +64,7 @@ export const editLibrary = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/libraries/${id}`, body)
+    axios.put(`/api/libraries/${id}`, body)
          .then(res => dispatch({
              type: LIBRARY_UPDATE,
              payload: res.data
