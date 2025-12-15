@@ -1,8 +1,7 @@
 import axios from 'axios';
 import useInterceptors from './interceptors/useInterceptors';
 
-axios.defaults.baseURL =
-  process.env.REACT_APP_API_URL || '/api';
+axios.defaults.baseURL ="";
 
 axios.defaults.headers["Content-Type"] = "application/json";
 axios.defaults.withCredentials = true;
