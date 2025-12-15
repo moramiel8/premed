@@ -1,4 +1,3 @@
-version: "3"
 services:
   react-app:
     build: ./client
@@ -14,29 +13,35 @@ services:
   api-server:
     build: ./server
     image: api-server
+    restart: unless-stopped
     ports:
       - "5001:5000"
     networks:
       - premed
     depends_on:
       - mongodb
-   
-    environment:
-      - PORT=5000
-      - MONGO_URI=mongodb://${DB_USER}:${DB_PASS}@mongodb:27017/${DB_NAME}?authSource=admin
-      - NODE_ENV=development
-      - NODE_OPTIONS=--trace-uncaught --trace-warnings
-    command: ["sh", "-c", "node build/src/index.js"]
 
+    env_file:
+      - .env
+
+    environment:
+      PORT: "5000"
+      NODE_ENV: "production"
+      MONGO_URI: "mongodb://${DB_USER}:${DB_PASS}@mongodb:27017/${DB_NAME}?authSource=admin"
+      JWT_SECRET: "${JWT_SECRET}"
+      REFRESH_TOKEN_SECRET: "${REFRESH_TOKEN_SECRET}"
+
+    command: ["sh", "-c", "node build/src/index.js"]
 
   mongodb:
     image: mongo:4.4-bionic
+    restart: unless-stopped
     env_file:
       - .env
     environment:
-      - MONGO_INITDB_DATABASE=${DB_NAME}
-      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASS}
+      MONGO_INITDB_DATABASE: "${DB_NAME}"
+      MONGO_INITDB_ROOT_USERNAME: "${DB_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${DB_PASS}"
     ports:
       - "27017:27017"
     networks:
@@ -47,6 +52,7 @@ services:
 networks:
   premed:
     driver: bridge
+
 volumes:
   mongo:
     driver: local

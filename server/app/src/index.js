@@ -71,6 +71,12 @@ app.use('/api/service', viewIndex)
 
 
 
+app.use((err, req, res, next) => {
+  console.error('ERROR:', err);
+  console.error(err?.stack);
+  next(err);
+});
+
 
 // Exit middlewares
 app.use(errorHandler);
