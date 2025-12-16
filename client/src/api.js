@@ -9,7 +9,6 @@ export const api = axios.create({
   },
 });
 
-// לחבר interceptors ל־instance הזה
 export const useApi = () => {
   useInterceptors(api);
 };

@@ -13,8 +13,9 @@ import {
 } from './types';
 import axios from 'axios';
 import { getMessage, getError } from '../../actions/messages';
+import { api } from '../../../api';
 
-const apiUrl = '/api/announcements/groups'
+const apiUrl = '/announcements/groups'
 
 // Basic types
 export const groupLoad = () => {
@@ -61,7 +62,7 @@ export const groupDelete = id => {
 export const getGroups = () => dispatch => {
     dispatch(groupLoad());
 
-    axios
+    api
         .get(apiUrl)
         .then(res => dispatch(groupSuccess(res.data)))
         .catch(err => {

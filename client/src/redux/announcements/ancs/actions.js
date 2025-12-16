@@ -8,6 +8,7 @@ import {
 } from './types';
 import axios from 'axios';
 import { getError } from '../../actions/messages';
+import { api } from '../../../api';
 
 
 // Basic types
@@ -84,20 +85,16 @@ export const getAncsList = data => dispatch => {
 
 // Add new anouncement
 export const addAnc = data => dispatch => {
-    dispatch(ancLoad());
+  dispatch(ancLoad());
 
-    // Reuest body 
-    const body = JSON.stringify(data);
-
-    // Send request
-    axios
-        .post('/api/announcements', body)
-        .then(res => dispatch(ancAdd(res.data)))
-        .catch(err => {
-            dispatch(ancError());
-            dispatch(getError(err))
-        })
-}
+  return api
+    .post('/announcements', data) // שים לב: בלי /api
+    .then(res => dispatch(ancAdd(res.data)))
+    .catch(err => {
+      dispatch(ancError());
+      dispatch(getError(err));
+    });
+};
 
 // Edit anouncement
 export const editAnc = (id, data) => dispatch => {
