@@ -98,14 +98,14 @@ export const editSection = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/sections/${id}`, body)
+    api.put(`/api/sections/${id}`, body)
          .then(res => dispatch(secUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
 
 export const deleteSection = id => dispatch => {
 
-    axios.delete(`/api/sections/${id}`)
+    api.delete(`/api/sections/${id}`)
          .then(res => {
              dispatch(secDelete(id));
              dispatch(getMessage(res.data));
@@ -117,7 +117,7 @@ export const addItem = (sectionId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/sections/${sectionId}/item`, body)
+    api.put(`/api/sections/${sectionId}/item`, body)
          .then(res => dispatch(itemAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -126,14 +126,14 @@ export const editItem = (sectionId, itemId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/sections/${sectionId}/item/${itemId}`, body)
+    api.put(`/api/sections/${sectionId}/item/${itemId}`, body)
          .then(res => dispatch(itemUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
 
 export const deleteItem = (sectionId, itemId) => dispatch => {
 
-    axios.put(`/api/sections/${sectionId}/item/${itemId}/remove`)
+    api.put(`/api/sections/${sectionId}/item/${itemId}/remove`)
          .then(res => dispatch(itemDelete(res.data)))
          .catch(err => dispatch(getError(err)))
 }

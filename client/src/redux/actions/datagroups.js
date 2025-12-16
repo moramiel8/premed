@@ -58,7 +58,7 @@ export const getGroupsByPaths = data => dispatch => {
     // Requrest body
     const body = JSON.stringify(data);
 
-    axios.get(`/api/datagroups/${body}`)
+    api.get(`/api/datagroups/${body}`)
          .then(res => dispatch({
              type: DATA_GROUP_SUCCESS,
              payload: res.data
@@ -99,7 +99,7 @@ export const editDataGroup = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/datagroups/${id}`, body)
+    api.put(`/api/datagroups/${id}`, body)
          .then(res => dispatch(dataGroupUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -108,7 +108,7 @@ export const dataGroupAssignRole = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/datagroups/${id}/assignRole`, body)
+    api.put(`/api/datagroups/${id}/assignRole`, body)
          .then(res => dispatch({
              type: DATA_GROUP_ASSIGN_ROLE,
              payload: res.data
@@ -122,7 +122,7 @@ export const dataGroupAssignRole = (id, data) => dispatch => {
 export const deleteDataGroup = id => dispatch => {
     dispatch(dataGroupLoad());
 
-    axios.delete(`/api/datagroups/${id}`)
+    api.delete(`/api/datagroups/${id}`)
          .then(res => {
              dispatch(dataGroupDelete(id));
              dispatch(getMessage(res.data));

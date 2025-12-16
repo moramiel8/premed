@@ -6,7 +6,6 @@ import {
     ANC_UPDATE,
     ANC_DELETE
 } from './types';
-import axios from 'axios';
 import { getError } from '../../actions/messages';
 import { api } from '../../../api';
 
@@ -56,7 +55,7 @@ export const ancDelete = id => {
 export const getAncs = () => dispatch => {
     dispatch(ancLoad());
 
-    axios
+    api
         .get('/api/announcements')
         .then(res => dispatch(ancSuccess(res.data)))
         .catch(err => {
@@ -70,7 +69,7 @@ export const getAncsList = data => dispatch => {
     dispatch(ancLoad());
     const body = JSON.stringify(data)
 
-    axios
+    api
         .post('/api/announcements/ancsList', body)
         .then(res => dispatch({
             type: ANC_SUCCESS,
@@ -103,7 +102,7 @@ export const editAnc = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios
+    api
         .put(`/api/announcements/${id}`, body)
         .then(res => dispatch(ancUpdate(res.data)))
         .catch(err => {
@@ -116,7 +115,7 @@ export const editAnc = (id, data) => dispatch => {
 export const deleteAnc = id => dispatch => {
     dispatch(ancLoad());
 
-    axios
+    api
         .delete(`/api/announcements/${id}`)
         .then(res =>
             // Get message 

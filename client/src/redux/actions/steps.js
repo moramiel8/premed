@@ -66,7 +66,7 @@ export const getSteps = pathId => dispatch => {
 
     if (!pathId) return;
 
-    axios.get(`/api/steps/${pathId}`)
+    api.get(`/api/steps/${pathId}`)
   .then(res => dispatch(stepSuccess(res.data)))
   .catch(err => {
     dispatch(stepError());
@@ -91,7 +91,7 @@ export const editStep = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/steps/${id}`, body)
+    api.put(`/api/steps/${id}`, body)
          .then(res => dispatch(stepUpdate(res.data)))
          .catch(err => {
             dispatch(getError(err))
@@ -103,7 +103,7 @@ export const addLinkLabel = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/addLinkLabel`, body)
+    api.put(`/api/steps/${id}/addLinkLabel`, body)
          .then(res => dispatch({
             type: STEP_ADD_LINK_LABEL,
             payload: {
@@ -120,7 +120,7 @@ export const addStepSummary = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/addSummary`, body)
+    api.put(`/api/steps/${id}/addSummary`, body)
          .then(res => dispatch({
             type: STEP_ADD_SUMMARY,
             payload: {
@@ -137,7 +137,7 @@ export const editStepSummary = (id, sumId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/${sumId}`, body)
+    api.put(`/api/steps/${id}/${sumId}`, body)
          .then(res => dispatch({
             type: STEP_EDIT_SUMMARY,
             payload: {
@@ -152,7 +152,7 @@ export const editStepSummary = (id, sumId, data) => dispatch => {
 }
 
 export const removeStepSummary = (id, sumId) => dispatch => {
-    axios.put(`/api/steps/${id}/${sumId}/remove`)
+    api.put(`/api/steps/${id}/${sumId}/remove`)
          .then(res => {
             dispatch({
                 type: STEP_REMOVE_SUMMARY,
@@ -173,7 +173,7 @@ export const addStepSummaryGroup = (id, sumId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/${sumId}/addGroup`, body)
+    api.put(`/api/steps/${id}/${sumId}/addGroup`, body)
          .then(res => dispatch({
             type: STEP_ADD_SUMMARY_GROUP,
             payload: {
@@ -190,7 +190,7 @@ export const addStepSummaryGroup = (id, sumId, data) => dispatch => {
 export const addStepSummaryGroupContent = (id, sumId, groupId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
-    axios.put(`/api/steps/${id}/${sumId}/${groupId}/addContent`, body)
+    api.put(`/api/steps/${id}/${sumId}/${groupId}/addContent`, body)
          .then(res => dispatch({
             type: STEP_ADD_SUMMARY_CONTENT,
             payload: {
@@ -209,7 +209,7 @@ export const editStepSummaryGroupContent = (id, sumId, groupId, contentId, data)
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/${sumId}/${groupId}/${contentId}`, body)
+    api.put(`/api/steps/${id}/${sumId}/${groupId}/${contentId}`, body)
          .then(res => dispatch({
             type: STEP_EDIT_SUMMARY_CONTENT,
             payload: {
@@ -226,7 +226,7 @@ export const editStepSummaryGroupContent = (id, sumId, groupId, contentId, data)
 }
 
 export const removeStepSummaryGroupContent = (id, sumId, groupId, contentId) => dispatch => {
-    axios.put(`/api/steps/${id}/${sumId}/${groupId}/${contentId}/remove`)
+    api.put(`/api/steps/${id}/${sumId}/${groupId}/${contentId}/remove`)
          .then(res => { 
             dispatch({
                 type: STEP_REMOVE_SUMMARY_CONTENT,
@@ -250,7 +250,7 @@ export const addUniContent = (id, uniId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/steps/${id}/${uniId}/addUniContent`, body)
+    api.put(`/api/steps/${id}/${uniId}/addUniContent`, body)
          .then(res => dispatch({
             type: STEP_ADD_UNI_CONTENT,
             payload: {
@@ -273,7 +273,7 @@ export const stepsFilterUnis = unis => dispatch => {
 export const deleteStep = id => dispatch => {
     dispatch(stepLoad());
 
-    axios.delete(`/api/steps/${id}`)
+    api.delete(`/api/steps/${id}`)
          .then(res => {
              dispatch({
                  type: STEP_DELETE,

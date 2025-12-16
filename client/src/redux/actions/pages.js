@@ -61,7 +61,7 @@ export const editPage = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/pages/${id}`, body)
+    api.put(`/api/pages/${id}`, body)
          .then(res => dispatch({
              type: PAGE_UPDATE,
              payload: res.data
@@ -72,7 +72,7 @@ export const editPage = (id, data) => dispatch => {
 export const deletePage = id => dispatch => {
     dispatch(pageLoad());
 
-    axios.delete(`/api/pages/${id}`)
+    api.delete(`/api/pages/${id}`)
          .then(res => {
              dispatch({
                  type: PAGE_DELETE,
@@ -91,7 +91,7 @@ export const addPageLink = (pageId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/pages/${pageId}/addLink`, body)
+    api.put(`/api/pages/${pageId}/addLink`, body)
          .then(res => dispatch({
              type: PAGE_LINK_ADD,
              payload: res.data
@@ -103,7 +103,7 @@ export const editSubpageLink = (pageId, linkId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/pages/${pageId}/${linkId}`, body)
+    api.put(`/api/pages/${pageId}/${linkId}`, body)
          .then(res => dispatch({
              type: PAGE_LINK_UPDATE,
              payload: res.data
@@ -113,7 +113,7 @@ export const editSubpageLink = (pageId, linkId, data) => dispatch => {
 
 export const deleteSubpageLink = (pageId, linkId) => dispatch => {
 
-    axios.put(`/api/pages/${pageId}/${linkId}/remove`)
+    api.put(`/api/pages/${pageId}/${linkId}/remove`)
          .then(res => dispatch({
              type: PAGE_LINK_DELETE,
              payload: res.data

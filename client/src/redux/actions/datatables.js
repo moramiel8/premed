@@ -68,7 +68,7 @@ export const editTable = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/datatables/${id}`, body)
+    api.put(`/api/datatables/${id}`, body)
          .then(res => 
             dispatch({
                 type: TABLE_UPDATE,
@@ -83,7 +83,7 @@ export const editTable = (id, data) => dispatch => {
 export const toggleEnabled = id => dispatch => {
     dispatch(tableLoad());
 
-    axios.put(`/api/datatables/${id}/toggleEnabled`)
+    api.put(`/api/datatables/${id}/toggleEnabled`)
          .then(res => 
             dispatch({
                 type: TABLE_TOGGLE_ENABLED,
@@ -98,7 +98,7 @@ export const toggleEnabled = id => dispatch => {
 export const addThreshold = (tableId, data) => dispatch => {
     const body = JSON.stringify(data)
 
-    axios.put(`/api/datatables/${tableId}/addThreshold`, body)
+    api.put(`/api/datatables/${tableId}/addThreshold`, body)
          .then(res => dispatch({
              type: THRESHOLD_ADD,
              payload: {
@@ -116,7 +116,7 @@ export const addThreshold = (tableId, data) => dispatch => {
 export const editThreshold = (tableId, threshId, data) => dispatch => {
     const body = JSON.stringify(data)
 
-    axios.put(`/api/datatables/${tableId}/${threshId}`, body)
+    api.put(`/api/datatables/${tableId}/${threshId}`, body)
          .then(res => dispatch({
              type: THRESHOLD_UPDATE,
              payload: {
@@ -132,7 +132,7 @@ export const editThreshold = (tableId, threshId, data) => dispatch => {
 
 
 export const deleteThreshold = (tableId, threshId) => dispatch => {
-    axios.put(`/api/datatables/${tableId}/${threshId}/remove`)
+    api.put(`/api/datatables/${tableId}/${threshId}/remove`)
          .then(res => {
              dispatch({
                 type: THRESHOLD_DELETE,
@@ -153,7 +153,7 @@ export const deleteThreshold = (tableId, threshId) => dispatch => {
 export const deleteTable = id => dispatch => {
     dispatch(tableLoad());
 
-    axios.delete(`/api/datatables/${id}`)
+    api.delete(`/api/datatables/${id}`)
          .then(res => {
              dispatch({
                 type: TABLE_DELETE,

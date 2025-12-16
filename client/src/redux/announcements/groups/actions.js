@@ -11,7 +11,6 @@ import {
     GROUP_COMMIT_SUBSCRIPTION_FAILURE,
     GROUP_DELETE,
 } from './types';
-import axios from 'axios';
 import { getMessage, getError } from '../../actions/messages';
 import { api } from '../../../api';
 
@@ -75,7 +74,7 @@ export const getGroups = () => dispatch => {
 export const getUserSubs = () => dispatch => {
     dispatch(groupLoad());
 
-    axios
+    api
         .get(`${apiUrl}/subs`)
         .then(res => dispatch({
             type: GET_GROUPS_USER_SUBSCRIBES,
@@ -90,7 +89,7 @@ export const addGroup = data => dispatch => {
     const body = JSON.stringify(data);
 
     // Send request
-    axios
+    api
         .post(apiUrl, body)
         .then(res => dispatch(groupAdd(res.data)))
         .catch(err =>  dispatch(getError(err)))
@@ -101,7 +100,7 @@ export const editGroup = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios
+    api
         .put(`${apiUrl}/${id}`, body)
         .then(res => dispatch(groupUpdate(res.data)))
         .catch(err => dispatch(getError(err)))
@@ -133,7 +132,7 @@ export const groupCommitSubscriptions = groups => dispatch => {
         subs
     })
     
-    axios 
+    api 
         .put(`${apiUrl}/toggleSubscribe`, body)
         .then(res => {
             dispatch({
@@ -151,7 +150,7 @@ export const groupCommitSubscriptions = groups => dispatch => {
 
 // Delete group
 export const deleteGroup = id => dispatch => {
-    axios
+    api
         .delete(`${apiUrl}/${id}`)
         .then(res => {
             dispatch(groupDelete(id))

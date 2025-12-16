@@ -29,7 +29,7 @@ export const getUnisByPaths = data => dispatch => {
 
     const params = JSON.stringify(data)
 
-    axios.get(`/api/universities/${params}`)
+    api.get(`/api/universities/${params}`)
          .then(res => dispatch({
              type: UNI_SUCCESS,
              payload: res.data
@@ -81,7 +81,7 @@ export const editUni = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/universities/${id}`, body)
+    api.put(`api/universities/${id}`, body)
          .then(res => 
             dispatch({
                 type: UNI_UPDATE,
@@ -96,7 +96,7 @@ export const editUni = (id, data) => dispatch => {
 export const deleteUni = id => dispatch => {
     dispatch(uniLoad());
 
-    axios.delete(`api/universities/${id}`)
+    api.delete(`api/universities/${id}`)
          .then(res => {
              dispatch({
                 type: UNI_DELETE,

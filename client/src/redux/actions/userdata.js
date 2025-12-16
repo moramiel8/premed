@@ -39,7 +39,7 @@ import {
     SIMULATE_CALCS_FAILURE,
     UPDATE_TABLE_FILTER_DATA
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 import { setLoader } from '../loader/utils';
 
@@ -112,7 +112,7 @@ export const getOneUserData = tableId => dispatch => {
         tableId
     })
 
-    axios.post('api/userdata/user', body)
+    api.post('api/userdata/user', body)
          .then(res => { 
              dispatch({
                 type: USER_DATA_SUCCESS,
@@ -148,7 +148,7 @@ export const getUsersDataByPathTable = (tableId, pathId, filters, lastId) => dis
 
     
 
-    axios.post(`api/userdata/${tableId}/${pathId}`, body)
+    api.post(`api/userdata/${tableId}/${pathId}`, body)
          .then(res => { 
              dispatch({
                 type: isMore 
@@ -177,7 +177,7 @@ export const addUserData = data => dispatch => {
     // Request body
     const body = JSON.stringify(finalDataObj);
 
-    axios.post('api/userdata', body)
+    api.post('api/userdata', body)
          .then(res => {
              dispatch ({
                 type: USER_DATA_ADD,
@@ -199,7 +199,7 @@ export const newUserTable = (tableId, data) => dispatch => {
     // Request body 
     const body = JSON.stringify(finalDataObj);
 
-    axios.post(`api/userdata/newTable/${tableId}`, body)
+    api.post(`api/userdata/newTable/${tableId}`, body)
          .then(res => {
              dispatch({
                  type: USER_DATA_ADD,
@@ -212,7 +212,7 @@ export const newUserTable = (tableId, data) => dispatch => {
 export const copyData = tableId => dispatch => {
     dispatch(dataLoad());
     
-    axios.post(`api/userdata/copyData/${tableId}`)
+    api.post(`api/userdata/copyData/${tableId}`)
          .then(res => {
              dispatch({
                  type: USER_DATA_ADD,
@@ -278,7 +278,7 @@ export const simulateCalcs = (
         tableYear
     });
 
-    axios.post(`api/userdata/simulateCalcs/${tableId}`, body)
+    api.post(`api/userdata/simulateCalcs/${tableId}`, body)
          .then(res => {
              dispatch ({
                 type: SIMULATE_CALCS_SUCCESS,
@@ -310,7 +310,7 @@ export const editUserDataPaths = (tableId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/userdata/editpaths/${tableId}`, body)
+    api.put(`api/userdata/editpaths/${tableId}`, body)
          .then(res => 
             dispatch({
                 type: USER_DATA_UPDATE_PATHS,
@@ -329,7 +329,7 @@ export const editUserDataPaths = (tableId, data) => dispatch => {
 export const switchTable = () => dispatch => {
     dispatch(dataLoad());
 
-    axios.put('api/userdata/switchtable')
+    api.put('api/userdata/switchtable')
          .then(res => dispatch({
              type: USER_DATA_SWITCH_TABLE,
              // returns switched table
@@ -353,7 +353,7 @@ export const insertData = (data, tableId) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/userdata/insertdata/${tableId}`, body)
+    api.put(`api/userdata/insertdata/${tableId}`, body)
          .then(res => {
             loaderInstance.type = USER_DATA_INSERT_SUCCESS
             dispatch({
@@ -376,7 +376,7 @@ export const insertData = (data, tableId) => dispatch => {
 export const toggleEnabled = tableId => dispatch => {
     dispatch(dataLoadSoft());
 
-    axios.put(`api/userdata/toggleEnabled/${tableId}`)
+    api.put(`api/userdata/toggleEnabled/${tableId}`)
          .then(res => 
             dispatch({
                 type: USER_DATA_TOGGLE_ENABLED,
@@ -405,7 +405,7 @@ export const executeCalc = (calcsToExec, selTableId) => dispatch => {
 
     const body = JSON.stringify(data)
 
-    axios.put(`/api/userdata/execCalc`, body)
+    api.put(`/api/userdata/execCalc`, body)
          .then(res => dispatch({
              type: EXEC_CALC_SUCCESS,
              payload: res.data
@@ -420,7 +420,7 @@ export const executeCalc = (calcsToExec, selTableId) => dispatch => {
 export const deleteUserData = userId => dispatch => {
     dispatch(dataLoad());
 
-    axios.delete(`api/userdata/${userId}`)
+    api.delete(`api/userdata/${userId}`)
          .then(res => {
              dispatch({
                 type: USER_DATA_DELETE,
@@ -439,7 +439,7 @@ export const addCustomGroup = (data, tableId) => dispatch => {
 
     dispatch(dataLoadSoft())
 
-    axios.put(`api/userdata/addCustomGroup/${tableId}`, body)
+    api.put(`api/userdata/addCustomGroup/${tableId}`, body)
          .then(res => dispatch({
              type: ADD_CUSTOM_GROUP,
              payload: res.data
@@ -455,7 +455,7 @@ export const removeValue = (data, tableId) => dispatch => {
 
     dispatch(dataLoadSoft())
 
-    axios.put(`api/userdata/removedata/${tableId}`, body)
+    api.put(`api/userdata/removedata/${tableId}`, body)
          .then(res => {
             const changed = {
                 group: data.groupId,

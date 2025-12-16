@@ -7,7 +7,7 @@ import {
     COMMENT_TOGGLE_LIKE,
     COMMENT_DELETE,
 } from './types';
-import axios from 'axios';
+import { api } from "../../api";
 import { getMessage, getError } from '../actions/messages';
 
 // Basic types
@@ -29,7 +29,7 @@ export const commentError = (err) => dispatch => {
 export const getCommentsByItem = itemId => dispatch => {
     dispatch(commentLoad());
 
-    axios.get(`/api/comments/${itemId}`)
+    api.get(`/api/comments/${itemId}`)
          .then(res => dispatch({
              type: COMMENT_GET_BY_ITEM,
              payload: res.data
@@ -45,7 +45,7 @@ export const addComment = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/comments', body)
+    api.post('/comments', body)
          .then(res => dispatch({
              type: COMMENT_ADD,
              payload: res.data
@@ -59,7 +59,7 @@ export const editComment = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/comments/${id}`, body)
+    api.put(`/api/comments/${id}`, body)
          .then(res => dispatch({
              type: COMMENT_UPDATE,
              payload: res.data
@@ -71,7 +71,7 @@ export const editComment = (id, data) => dispatch => {
 
 export const voteComment = id => async(dispatch) => {
     try {
-        const res = await axios.put(`api/comments/${id}/vote`)
+        const res = await api.put(`api/comments/${id}/vote`)
         dispatch({
             type: COMMENT_TOGGLE_LIKE,
             payload: {
@@ -89,7 +89,7 @@ export const voteComment = id => async(dispatch) => {
 export const deleteComment = id => dispatch => {
     dispatch(commentLoad());
 
-    axios.delete(`/api/comments/${id}`)
+    api.delete(`/api/comments/${id}`)
          .then(res => {
              dispatch({
                  type: COMMENT_DELETE,

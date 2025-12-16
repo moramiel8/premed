@@ -30,7 +30,7 @@ export const inquiryError = () => {
 export const getInquiries = () => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.get(`/api/inquiries`)
+    api.get(`/api/inquiries`)
          .then(res => dispatch({
              type: INQUIRY_SUCCESS,
              payload: res.data
@@ -95,7 +95,7 @@ export const editInquiry = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/inquiries/${id}`, body)
+    api.put(`/api/inquiries/${id}`, body)
          .then(res => dispatch({
              type: INQUIRY_UPDATE,
              payload: res.data
@@ -112,7 +112,7 @@ export const assignAdmin = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/inquiries/${id}/assignAdmin`, body)
+    api.put(`/api/inquiries/${id}/assignAdmin`, body)
          .then(res => dispatch({
              type: INQUIRY_ASSIGN_ADMIN,
              payload: {
@@ -132,7 +132,7 @@ export const changeStatus = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/inquiries/${id}/changeStatus`, body)
+    api.put(`/api/inquiries/${id}/changeStatus`, body)
          .then(res => dispatch({
              type: INQUIRY_CHANGE_STATUS,
              payload: {
@@ -152,7 +152,7 @@ export const updateStatusNote = (id, statusId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/inquiries/${id}/${statusId}`, body)
+    api.put(`/api/inquiries/${id}/${statusId}`, body)
          .then(res => dispatch({
              type: INQUIRY_UPDATE_STATUS_NOTE,
              payload: {
@@ -170,7 +170,7 @@ export const updateStatusNote = (id, statusId, data) => dispatch => {
 export const deleteInquiry = id => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.delete(`/api/inquiries/${id}`)
+    api.delete(`/api/inquiries/${id}`)
          .then(res => {
              dispatch({
                  type: INQUIRY_DELETE,

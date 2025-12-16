@@ -31,7 +31,7 @@ export const getCalcsByPaths = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.get(`/api/calculations/${body}`)
+    api.get(`/api/calculations/${body}`)
          .then(res => dispatch({
              type: CALC_SUCCESS,
              payload: res.data
@@ -82,7 +82,7 @@ export const editCalc = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/calculations/${id}`, body)
+    api.put(`/api/calculations/${id}`, body)
          .then(res => 
             dispatch({
                 type: CALC_UPDATE,
@@ -97,7 +97,7 @@ export const editCalc = (id, data) => dispatch => {
 export const deleteCalc = id => dispatch => {
     dispatch(calcLoad());
 
-    axios.delete(`/api/calculations/${id}`)
+    api.delete(`/api/calculations/${id}`)
          .then(res => {
              dispatch({
                 type: CALC_DELETE,
@@ -125,7 +125,7 @@ export const calcAssignRole = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`/api/calculations/${id}/assignRole`, body)
+    api.put(`/api/calculations/${id}/assignRole`, body)
          .then(res => dispatch({
              type: CALC_ASSIGN_ROLE,
              payload: res.data
