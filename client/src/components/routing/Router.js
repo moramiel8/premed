@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useLocation, Redirect } from 'react-router-dom';
 import { initMessage } from '../../redux/actions/messages';
 import ProtectedRoute from './ProtectedRoute';
 import AdminRoute from './AdminRoute';
@@ -16,33 +16,66 @@ import ViewAncs from '../announcements/ViewAncs/ViewAncs';
 import Admin from '../admin/Admin';
 import Profile from '../Profile/Profile';
 import ResetPassword from '../auth/ResetPassword/ResetPassword';
+import { getAllPaths } from '../../redux/selectors/paths';
+
+const RedirectToFirstPath = ({ base }) => {
+  const paths = useSelector(getAllPaths);
+
+  console.log("RedirectToFirstPath", base, "paths:", paths);
+
+  if (!Array.isArray(paths) || paths.length === 0) return null;
+
+  const first = paths[0];
+  console.log("first path:", first);
+
+  const key = first?.slug ?? first?._id;
+  if (!key) return null;
+
+  return <Redirect to={`${base}/${key}`} />;
+};
+
 
 const Router = () => {
-    const location = useLocation();
-    const dispatch = useDispatch();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(initMessage());
-    }, [location])
+  useEffect(() => {
+    dispatch(initMessage());
+  }, [location, dispatch]);
 
-    return ( 
-        <div className="router">
-            <Switch>
-                <Route exact path="/" component={Default} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/resetPassword/:token" component={ResetPassword} />
-                <Route path="/steps/:pathId" component={Steps} />
-                <Route path="/qna/:pathId" component={Questions} />
-                <ProtectedRoute path="/profile" component={Profile} />
-                <ProtectedRoute path="/announcements" component={ViewAncs} />
-                <ProtectedRoute path="/stats" component={Stats} />
-                <ProtectedRoute path="/library/:pathId" component={LibrariesClient} />
-                <AdminRoute path="/admin" component={Admin} />
-                <Route component={NoMatchPage} />  
-            </Switch>
-        </div>
-    )
-}
+  return (
+    <div className="router">
+      <Switch>
+        <Route exact path="/" component={Default} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/resetPassword/:token" component={ResetPassword} />
+
+        <Route exact path="/steps">
+          <RedirectToFirstPath base="/steps" />
+        </Route>
+
+        <Route exact path="/qna">
+          <RedirectToFirstPath base="/qna" />
+        </Route>
+
+        <ProtectedRoute exact path="/library">
+          <RedirectToFirstPath base="/library" />
+        </ProtectedRoute>
+
+        <Route path="/steps/:pathId" component={Steps} />
+        <Route path="/qna/:pathId" component={Questions} />
+
+        <ProtectedRoute path="/profile" component={Profile} />
+        <ProtectedRoute path="/announcements" component={ViewAncs} />
+        <ProtectedRoute path="/stats" component={Stats} />
+        <ProtectedRoute path="/library/:pathId" component={LibrariesClient} />
+
+        <AdminRoute path="/admin" component={Admin} />
+        <Route component={NoMatchPage} />
+      </Switch>
+    </div>
+  );
+};
 
 export default Router;

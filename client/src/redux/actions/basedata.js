@@ -8,12 +8,18 @@ import {
 import axios from 'axios';
 import { getError } from './messages';
 
+useEffect(() => {
+  console.log("📌 dispatch getTableSections()");
+  dispatch(getTableSections());
+}, [dispatch]);
+
+
 export const getBaseData = () => dispatch => {
     dispatch({
         type: BASE_DATA_LOADING
     })
 
-    axios.get('api/serverdata/baseData')
+    axios.get('/api/serverdata/baseData')
          .then(res => {
              dispatch({
                  type: BASE_DATA_SUCCESS,
@@ -35,7 +41,7 @@ export const getStatsInputs = pathIds => dispatch => {
     })
 
 
-    axios.post('api/serverdata/statsData', body)
+    axios.post('/api/serverdata/statsData', body)
          .then(res => {
              dispatch({
                  type: STATS_INPUTS_SUCCESS,
@@ -48,7 +54,7 @@ export const getStatsInputs = pathIds => dispatch => {
 }
 
 export const getTableSections = () => dispatch => {
-    axios.get('api/serverdata/tableSections')
+    axios.get('/api/serverdata/tableSections')
          .then(res => dispatch({
              type: GET_TABLE_SETCIONS,
              payload: res.data

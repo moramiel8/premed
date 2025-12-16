@@ -59,7 +59,7 @@ export const editComment = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/comments/${id}`, body)
+    axios.put(`/api/comments/${id}`, body)
          .then(res => dispatch({
              type: COMMENT_UPDATE,
              payload: res.data

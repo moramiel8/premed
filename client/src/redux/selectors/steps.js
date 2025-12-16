@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect';
 import { stepMatchUnis } from '../../utils/steps';
 
-export const stepsSelector = state => state.steps.uniSteps
+export const stepsSelector = state => (
+  Array.isArray(state?.steps?.uniSteps) ? state.steps.uniSteps : []
+);
 
 export const getStepById = stepId => createSelector(
     stepsSelector,
@@ -48,9 +50,8 @@ export const areChildrenGroups = parentId => createSelector(
             const posChildren = steps.filter(step => 
                 step.parent === child._id)
 
-            if(posChildren > 0) {
-                return true
-            }
+           if (posChildren.length) return true;
+
         }
 
         return false

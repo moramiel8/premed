@@ -12,7 +12,9 @@ import { getGroups } from '../../../../../redux/announcements/groups/selectors'
 function AddAncForm({ display, setDisplay }) {
     const [defaultValues] = useState({
         title: '',
-        group: ''
+        content: '',
+        group: '',
+        shouldEmail: false
     })
 
     const {
@@ -22,11 +24,16 @@ function AddAncForm({ display, setDisplay }) {
         errors
     } = useForm(addAnc, defaultValues)
 
-    const groups = useSelector(getGroups)
-    const options = groups.map(group => ({
-        name: group.name,
-        value: group._id
+    const groups = useSelector(getGroups) || [];
+
+const options = Array.isArray(groups)
+  ? groups.map(group => ({
+      name: group.name,
+      value: group._id
     }))
+  : [];
+
+  console.log('FORM VALUES', values);
 
     return (
         <Modal
@@ -44,8 +51,12 @@ function AddAncForm({ display, setDisplay }) {
 
                 <Editor
                 value={values.content}
-                onChange={handleChange}
-                name="content" />
+                onChange={(value) =>
+                handleChange({
+                target: { name: 'content', value }
+                  })
+                }
+                />
 
                 <Dropdown 
                 options={options}

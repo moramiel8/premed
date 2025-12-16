@@ -76,7 +76,7 @@ export const itemDelete = sec => {
 export const getSections = () => dispatch => {
     dispatch(secLoad());
 
-    axios.get('api/sections')
+    axios.get('/api/sections')
          .then(res => dispatch(secSuccess(res.data)))
          .catch(err => {
              dispatch(secError());
@@ -89,7 +89,7 @@ export const addSection = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/sections', body)
+    axios.post('/api/sections', body)
          .then(res => dispatch(secAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -98,14 +98,14 @@ export const editSection = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/sections/${id}`, body)
+    axios.put(`/api/sections/${id}`, body)
          .then(res => dispatch(secUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
 
 export const deleteSection = id => dispatch => {
 
-    axios.delete(`api/sections/${id}`)
+    axios.delete(`/api/sections/${id}`)
          .then(res => {
              dispatch(secDelete(id));
              dispatch(getMessage(res.data));
@@ -117,7 +117,7 @@ export const addItem = (sectionId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/sections/${sectionId}/item`, body)
+    axios.put(`/api/sections/${sectionId}/item`, body)
          .then(res => dispatch(itemAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -126,14 +126,14 @@ export const editItem = (sectionId, itemId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/sections/${sectionId}/item/${itemId}`, body)
+    axios.put(`/api/sections/${sectionId}/item/${itemId}`, body)
          .then(res => dispatch(itemUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
 
 export const deleteItem = (sectionId, itemId) => dispatch => {
 
-    axios.put(`api/sections/${sectionId}/item/${itemId}/remove`)
+    axios.put(`/api/sections/${sectionId}/item/${itemId}/remove`)
          .then(res => dispatch(itemDelete(res.data)))
          .catch(err => dispatch(getError(err)))
 }

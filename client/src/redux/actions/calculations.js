@@ -47,7 +47,7 @@ export const getCalcsByPaths = data => dispatch => {
 export const getCalcs = () => dispatch => {
     dispatch(calcLoad());
 
-    axios.get('api/calculations')
+    axios.get('/api/calculations')
          .then(res => { 
              dispatch({
                 type: CALC_SUCCESS,
@@ -64,7 +64,7 @@ export const addCalc = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/calculations', body)
+    axios.post('/api/calculations', body)
          .then(res => {
              dispatch ({
                 type: CALC_ADD,
@@ -82,7 +82,7 @@ export const editCalc = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/calculations/${id}`, body)
+    axios.put(`/api/calculations/${id}`, body)
          .then(res => 
             dispatch({
                 type: CALC_UPDATE,
@@ -97,7 +97,7 @@ export const editCalc = (id, data) => dispatch => {
 export const deleteCalc = id => dispatch => {
     dispatch(calcLoad());
 
-    axios.delete(`api/calculations/${id}`)
+    axios.delete(`/api/calculations/${id}`)
          .then(res => {
              dispatch({
                 type: CALC_DELETE,
@@ -114,7 +114,7 @@ export const deleteCalc = id => dispatch => {
 export const getStoredCalcs = () => dispatch => {
     dispatch(calcLoad());
     
-    axios.get('api/calculations/storedCalcs')
+    axios.get('/api/calculations/storedCalcs')
          .then(res => dispatch({
              type: STORED_CALCS_GET,
              payload: res.data
@@ -125,7 +125,7 @@ export const calcAssignRole = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`api/calculations/${id}/assignRole`, body)
+    axios.put(`/api/calculations/${id}/assignRole`, body)
          .then(res => dispatch({
              type: CALC_ASSIGN_ROLE,
              payload: res.data

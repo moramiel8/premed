@@ -109,7 +109,7 @@ export const getFieldsByPaths = data => dispatch => {
 export const getDataFields = () => dispatch => {
     dispatch(dataFieldLoad());
 
-    axios.get('api/datafields')
+    axios.get('/api/datafields')
          .then(res => dispatch(dataFieldSuccess(res.data)))
          .catch(err => {
              dispatch(dataFieldError());
@@ -120,7 +120,7 @@ export const getDataFields = () => dispatch => {
 export const getAllowedTypes = () => dispatch => {
     dispatch(dataFieldLoad);
 
-    axios.get('api/datafields/allowedTypes')
+    axios.get('/api/datafields/allowedTypes')
          .then(res => dispatch(allowedTypesGet(res.data)))
          .catch(() => {
              dispatch(dataFieldError());
@@ -132,7 +132,7 @@ export const addDataField = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/datafields', body)
+    axios.post('/api/datafields', body)
          .then(res => dispatch(dataFieldAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -141,7 +141,7 @@ export const editDataField = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/datafields/${id}`, body)
+    axios.put(`/api/datafields/${id}`, body)
          .then(res => dispatch(dataFieldUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -150,7 +150,7 @@ export const dataFieldAssignRole = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data)
 
-    axios.put(`api/datafields/${id}/assignRole`, body)
+    axios.put(`/api/datafields/${id}/assignRole`, body)
          .then(res => dispatch({
              type: DATA_FIELD_ASSIGN_ROLE,
              payload: res.data
@@ -163,7 +163,7 @@ export const dataFieldAssignRole = (id, data) => dispatch => {
 
 export const deleteDataField = id => dispatch => {
 
-    axios.delete(`api/datafields/${id}`)
+    axios.delete(`/api/datafields/${id}`)
          .then(res => {
              dispatch(dataFieldDelete(id));
              dispatch(getMessage(res.data));
@@ -176,7 +176,7 @@ export const addValid = (fieldId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/datafields/${fieldId}/addValid`, body)
+    axios.put(`/api/datafields/${fieldId}/addValid`, body)
          .then(res => dispatch(validAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -186,7 +186,7 @@ export const editValid = (fieldId, validId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/datafields/${fieldId}/${validId}`, body)
+    axios.put(`/api/datafields/${fieldId}/${validId}`, body)
          .then(res => dispatch(validUpdate(res.data)))
          .catch(err => dispatch(getError(err)))
 }
@@ -194,7 +194,7 @@ export const editValid = (fieldId, validId, data) => dispatch => {
 // Remove validator
 export const deleteValid = (fieldId, validId) => dispatch => {
 
-    axios.put(`api/datafields/${fieldId}/${validId}/removeValid`)
+    axios.put(`/api/datafields/${fieldId}/${validId}/removeValid`)
          .then(res => dispatch(validDelete(res.data)))
          .catch(err => dispatch(getError(err)))
 }

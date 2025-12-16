@@ -44,7 +44,7 @@ export const getUnisByPaths = data => dispatch => {
 export const getUnis = () => dispatch => {
     dispatch(uniLoad());
 
-    axios.get('api/universities')
+    axios.get('/api/universities')
          .then(res => { 
              dispatch({
                 type: UNI_SUCCESS,

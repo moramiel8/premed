@@ -50,7 +50,7 @@ export const addLibrary = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/libraries', body)
+    axios.post('/api/libraries', body)
          .then(res => dispatch({
              type: LIBRARY_ADD,
              payload: res.data
@@ -155,7 +155,7 @@ export const deleteLibItem = (id, itemId) => async(dispatch) => {
 export const deleteLibrary = id => dispatch => {
     dispatch(libraryLoad());
 
-    axios.delete(`api/libraries/${id}`)
+    axios.delete(`/api/libraries/${id}`)
          .then(res => {
              dispatch({
                  type: LIBRARY_DELETE,

@@ -8,69 +8,81 @@ import School from '../../../common/icons/School/School'
 import Home from '../../../common/icons/Home/Home'
 import Qna from '../../../common/icons/Qna/Qna'
 
-
 function MainLinks() {
-    const paths = useSelector(getAllPaths)
-    const links = [
-        {
-            name: "בית",
-            url: "/",
-            icon: ({outlined}) => <Home
-                    color="#fff" 
-                    width="4rem" 
-                    height="4rem" 
-                    outlined={outlined} />
-        },
-        {
-            name: "תהליך הקבלה",
-            url: `/steps/${paths[0]?._id}`,
-            icon: ({outlined}) => <Bubbles 
-                    color="#fff" 
-                    width="4rem" 
-                    height="4rem" 
-                    outlined={outlined} />
-        },
-        {
-            name: "הספרייה",
-            url: `/library/${paths[0]?._id}`,
-            icon: ({outlined}) => <School 
-                    color="#fff"
-                    outlined={outlined}
-                    width="4rem"
-                    height="4rem" />
-        },
-        {
-            name: "נתונים",
-            url: '/stats',
-            icon:  ({outlined}) => <BarChart 
-                    color="#fff" 
-                    width="4rem" 
-                    height="4rem" 
-                    outlined={outlined} />
-        },
-        {
-            name: "שאלות נפוצות",
-            url: `/qna/${paths[0]?._id}`,
-            icon: ({ outlined }) => <Qna 
-                    color="#fff"
-                    secondaryColor="#486974" 
-                    width="4rem" 
-                    height="4rem" 
-                    outlined={outlined}  />
-        }
-    ]
-    
-    return (
-        <li className="navbar__main-links">
-            <ul className="navbar__main-links__wrapper">
-                {links.map(link => 
-                    <LinkItem
-                    key={link.url}
-                    link={link} />
-                )}
-            </ul>
-        </li>
-    )
+  const paths = useSelector(getAllPaths) ?? [];
+  const firstPath = Array.isArray(paths) ? paths[0] : undefined;
+
+  const pathKey = firstPath?.slug ?? firstPath?._id;
+
+  const links = [
+    {
+      name: "בית",
+      url: "/",
+      icon: ({ outlined }) => (
+        <Home 
+        color="#fff" 
+        width="4rem" 
+        height="4rem" 
+        outlined={outlined} />
+      )
+    },
+    {
+      name: "תהליך הקבלה",
+      url: pathKey ? `/steps/${pathKey}` : "/steps",
+      icon: ({ outlined }) => (
+        <Bubbles 
+        color="#fff" 
+        width="4rem" 
+        height="4rem" 
+        outlined={outlined} />
+      )
+    },
+    {
+      name: "הספרייה",
+      url: pathKey ? `/library/${pathKey}` : "/library",
+      icon: ({ outlined }) => (
+        <School 
+        color="#fff" 
+        outlined={outlined} 
+        width="4rem" 
+        height="4rem" />
+      )
+    },
+    {
+      name: "נתונים",
+      url: "/stats",
+      icon: ({ outlined }) => (
+        <BarChart 
+        color="#fff" 
+        width="4rem" 
+        height="4rem" 
+        outlined={outlined} />
+      )
+    },
+    {
+      name: "שאלות נפוצות",
+      url: pathKey ? `/qna/${pathKey}` : "/qna",
+      icon: ({ outlined }) => (
+        <Qna
+          color="#fff"
+          secondaryColor="#486974"
+          width="4rem"
+          height="4rem"
+          outlined={outlined}
+        />
+      )
+    }
+  ];
+
+  return (
+    <li className="navbar__main-links">
+      <ul className="navbar__main-links__wrapper">
+        {links.map(link => (
+          <LinkItem key={link.url} link={link} />
+        ))}
+      </ul>
+    </li>
+  );
 }
 
-export default MainLinks
+export default MainLinks;

@@ -40,7 +40,7 @@
         }
 
         .banner {
-            background-color: #486974;
+            background-color: #6FC3C8;
         }
 
         @media only screen and (max-width: 300px) {
@@ -100,7 +100,7 @@
 <body
     style="font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;margin: 0;padding: 0;color: #555;direction: rtl;">
     <div class="email-body" width="100%"
-        style="background-color: #486974; width: 100%; align-self: center; font-size: 16px;">
+        style="background-color: #6FC3C8; width: 100%; align-self: center; font-size: 16px;">
         <div class="body-container">
             <div class="anc-title">
                 {{ anc_title }}

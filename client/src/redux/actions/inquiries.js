@@ -45,7 +45,7 @@ export const getInquiries = () => dispatch => {
 export const getUserInquiries = () => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.get('api/inquiries/user')
+    axios.get('/api/inquiries/user')
          .then(res => dispatch({
              type: INQUIRY_SUCCESS,
              payload: res.data
@@ -60,7 +60,7 @@ export const getUserInquiries = () => dispatch => {
 export const getUserInquiryTypes = () => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.get('api/inquiries/types')
+    axios.get('/api/inquiries/types')
          .then(res => dispatch({
              type: GET_INQUIRY_TYPES,
              payload: res.data
@@ -78,7 +78,7 @@ export const addInquiry = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/inquiries', body)
+    axios.post('/api/inquiries', body)
          .then(res => dispatch({
              type: INQUIRY_ADD,
              payload: res.data
@@ -95,7 +95,7 @@ export const editInquiry = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/inquiries/${id}`, body)
+    axios.put(`/api/inquiries/${id}`, body)
          .then(res => dispatch({
              type: INQUIRY_UPDATE,
              payload: res.data
@@ -112,7 +112,7 @@ export const assignAdmin = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/inquiries/${id}/assignAdmin`, body)
+    axios.put(`/api/inquiries/${id}/assignAdmin`, body)
          .then(res => dispatch({
              type: INQUIRY_ASSIGN_ADMIN,
              payload: {
@@ -132,7 +132,7 @@ export const changeStatus = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/inquiries/${id}/changeStatus`, body)
+    axios.put(`/api/inquiries/${id}/changeStatus`, body)
          .then(res => dispatch({
              type: INQUIRY_CHANGE_STATUS,
              payload: {
@@ -152,7 +152,7 @@ export const updateStatusNote = (id, statusId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`api/inquiries/${id}/${statusId}`, body)
+    axios.put(`/api/inquiries/${id}/${statusId}`, body)
          .then(res => dispatch({
              type: INQUIRY_UPDATE_STATUS_NOTE,
              payload: {
@@ -170,7 +170,7 @@ export const updateStatusNote = (id, statusId, data) => dispatch => {
 export const deleteInquiry = id => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.delete(`api/inquiries/${id}`)
+    axios.delete(`/api/inquiries/${id}`)
          .then(res => {
              dispatch({
                  type: INQUIRY_DELETE,

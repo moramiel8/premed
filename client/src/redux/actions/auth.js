@@ -36,185 +36,114 @@ import {
     LOGOUT
 } from '../auth/types';
 import { getError, getMessage } from './messages';
-import axios from 'axios';
 import {  setLoader } from '../loader/utils'
+import { api } from "../../api";
 
-export const logout = () => dispatch => {
-    axios.post('/auth/logout')
-        .then(() => dispatch({
-            type: LOGOUT
-        }))
-}
+export const logout = () => dispatch =>
+  api.post('/auth/logout').then(() => dispatch({ type: LOGOUT }));
 
 // Get user
 export const getUser = () => dispatch => {
-    dispatch(setLoader(GET_USER_LOADING))
-
-    axios
-        .get('/api/auth/user')
-        .then(res => dispatch({
-            type: GET_USER_SUCCESS,
-            payload: res.data
-        }))
-        .catch(err => {
-            dispatch({
-                type: GET_USER_FAILURE
-            });
-        })
-}
+  dispatch(setLoader(GET_USER_LOADING));
+  api.get('/auth/user')
+    .then(res => dispatch({ type: GET_USER_SUCCESS, payload: res.data }))
+    .catch(() => dispatch({ type: GET_USER_FAILURE }));
+};
 
 
-// Get users 
+
+// Get users
 export const getUsers = filters => dispatch => {
-    dispatch(setLoader(GET_USERS_LOADING))
+  dispatch(setLoader(GET_USERS_LOADING));
 
-    const body = JSON.stringify(filters)
-
-    axios
-        .post('/api/auth/users', body)
-        .then(res => dispatch({
-            type: GET_USERS_SUCCESS,
-            payload: res.data
-        }))
-        .catch(err => {
-            dispatch({
-                type: GET_USERS_FAILURE
-            });
-        })
-}
+  api.post('/auth/users', filters)
+    .then(res => dispatch({ type: GET_USERS_SUCCESS, payload: res.data }))
+    .catch(() => dispatch({ type: GET_USERS_FAILURE }));
+};
 
 // Load more users
 export const getMoreUsers = filters => dispatch => {
-    dispatch(setLoader(GET_USERS_LOAD_MORE_LOADING))
+  dispatch(setLoader(GET_USERS_LOAD_MORE_LOADING));
 
-    const body = JSON.stringify(filters)
-
-    axios
-        .post('/api/auth/users', body)
-        .then(res => dispatch({
-            type: GET_USERS_LOAD_MORE_SUCCESS,
-            payload: res.data
-        }))
-        .catch(err => {
-            dispatch({
-                type: GET_USERS_LOAD_MORE_FAILURE
-            });
-        })
-}
+  api.post('/auth/users', filters)
+    .then(res => dispatch({ type: GET_USERS_LOAD_MORE_SUCCESS, payload: res.data }))
+    .catch(() => dispatch({ type: GET_USERS_LOAD_MORE_FAILURE }));
+};
 
 
 // Login
 export const login = data => dispatch => {
-    dispatch(setLoader(LOGIN_LOADING))
+  dispatch(setLoader(LOGIN_LOADING));
+  api.post('/auth/login', data)
+    .then(res => dispatch({ type: LOGIN_SUCCESS, payload: res.data }))
+    .catch(err => {
+      dispatch({ type: LOGIN_FAILURE });
+      dispatch(getError(err));
+    });
+};
 
-    // Request body 
-    const body = JSON.stringify(data);
-    
-    // Send request
-    axios
-        .post('/api/auth/login', body)
-        .then(res => dispatch({
-            type: LOGIN_SUCCESS,
-            payload: res.data
-        }))
-        .catch(err => {
-            dispatch({
-                type: LOGIN_FAILURE
-            });
-            dispatch(getError(err));
-        })
-
-}
 
 // Register
 export const register = data => dispatch => {
-    dispatch(setLoader(REGISTER_LOADING))
-    
-    // Request body
-    const body = JSON.stringify(data)
+  dispatch(setLoader(REGISTER_LOADING));
 
-    axios
-        .post('/api/auth/register', body)
-        .then(res => dispatch({
-            type: REGISTER_SUCCESS,
-            payload: res.data
-        }))
-        .catch(err => {
-            dispatch({
-                type: REGISTER_FAILURE
-            })
-            dispatch(getError(err));
-        })
-}
+  api.post('/auth/register', data)
+    .then(res => dispatch({ type: REGISTER_SUCCESS, payload: res.data }))
+    .catch(err => {
+      dispatch({ type: REGISTER_FAILURE });
+      dispatch(getError(err));
+    });
+};
 
 export const editUser = data => dispatch => {
-    dispatch(setLoader(EDIT_USER_LOADING))
+  dispatch(setLoader(EDIT_USER_LOADING));
 
-    // Request body
-    const body = JSON.stringify(data);
-
-    axios.put('/auth/user', body)
-         .then(res => {
-            dispatch({
-                type: EDIT_USER_SUCCESS,
-                payload: res.data.user
-            })
-
-            dispatch(getMessage(res.data.msg))
-        })
-         .catch(err => {
-             dispatch({
-                 type: EDIT_USER_FAILURE
-             })
-             dispatch(getError(err))
-         })
-}
-
-export const changePassword = data => async(dispatch) => {
-    dispatch({ type: CHANGE_PASSWORD_LOADING })
-
-    const body = JSON.stringify(data)
-
-    try {
-        const res = await axios.put('/auth/changePassword', body)
-        dispatch({ type: CHANGE_PASSWORD_SUCCESS })
-        dispatch(getMessage(res.data))
-    }
-    catch(err) {
-        dispatch({ type: CHANGE_PASSWORD_FAILURE })
-        dispatch(getError(err))
-    }
-}
-
-export const requestForgotPasswordEmail = email => async(dispatch) => {
-    dispatch({ type: REQUEST_FORGOT_PASSWORD_LOADING });
-    const body = JSON.stringify(email);
-
-    try {
-        const res = await axios.post('/auth/forgotPassword', body);
-        dispatch({ type: REQUEST_FORGOT_PASSWORD_SUCCESS });
-        dispatch(getMessage(res.data));
-    }
-    catch(err) {
-        dispatch({ type: REQUEST_FORGOT_PASSWORD_FAILURE });
-        dispatch(getError(err));
-    }
-}
-
-
-export const resetPassword = (token, data) => async(dispatch) => {
-    dispatch({ type: RESET_PASSWORD_LOADING });
-    const body = JSON.stringify({
-        password: data.newPassword
+  api.put('/auth/user', data)
+    .then(res => {
+      dispatch({ type: EDIT_USER_SUCCESS, payload: res.data.user });
+      dispatch(getMessage(res.data.msg));
+    })
+    .catch(err => {
+      dispatch({ type: EDIT_USER_FAILURE });
+      dispatch(getError(err));
     });
+};
 
-    try {
-        const res = await axios.post(`/api/auth/resetPassword/${token}`, body);
-        dispatch({ type: RESET_PASSWORD_SUCCESS });
-        dispatch(getMessage(res.data));
-    }
-    catch(err) {
-        dispatch({ type: RESET_PASSWORD_FAILURE });
-        dispatch(getError(err));
-    }
-}
+export const changePassword = data => async dispatch => {
+  dispatch({ type: CHANGE_PASSWORD_LOADING });
+
+  try {
+    const res = await api.put('/auth/changePassword', data);
+    dispatch({ type: CHANGE_PASSWORD_SUCCESS });
+    dispatch(getMessage(res.data));
+  } catch (err) {
+    dispatch({ type: CHANGE_PASSWORD_FAILURE });
+    dispatch(getError(err));
+  }
+};
+
+export const requestForgotPasswordEmail = email => async dispatch => {
+  dispatch({ type: REQUEST_FORGOT_PASSWORD_LOADING });
+
+  try {
+    const res = await api.post('/auth/forgotPassword', email);
+    dispatch({ type: REQUEST_FORGOT_PASSWORD_SUCCESS });
+    dispatch(getMessage(res.data));
+  } catch (err) {
+    dispatch({ type: REQUEST_FORGOT_PASSWORD_FAILURE });
+    dispatch(getError(err));
+  }
+};
+
+export const resetPassword = (token, data) => async dispatch => {
+  dispatch({ type: RESET_PASSWORD_LOADING });
+
+  try {
+    const res = await api.post(`/auth/resetPassword/${token}`, { password: data.newPassword });
+    dispatch({ type: RESET_PASSWORD_SUCCESS });
+    dispatch(getMessage(res.data));
+  } catch (err) {
+    dispatch({ type: RESET_PASSWORD_FAILURE });
+    dispatch(getError(err));
+  }
+};
