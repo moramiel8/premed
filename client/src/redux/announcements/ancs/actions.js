@@ -88,7 +88,7 @@ export const addAnc = data => dispatch => {
   dispatch(ancLoad());
 
   return api
-    .post('/announcements', data) // שים לב: בלי /api
+    .post('/announcements', data) 
     .then(res => dispatch(ancAdd(res.data)))
     .catch(err => {
       dispatch(ancError());

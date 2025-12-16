@@ -9,7 +9,7 @@ import {
     PAGE_LINK_UPDATE,
     PAGE_LINK_DELETE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -29,7 +29,7 @@ export const pageError = () => {
 export const getPages = () => dispatch => {
     dispatch(pageLoad());
 
-    axios.get('/api/pages')
+    api.get('/pages')
          .then(res => dispatch({
              type: PAGE_SUCCESS,
              payload: res.data
@@ -47,7 +47,7 @@ export const addPage = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/pages', body)
+    api.post('/pages', body)
          .then(res => dispatch({
              type: PAGE_ADD,
              payload: res.data

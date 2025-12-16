@@ -1,65 +1,42 @@
 import {
-    BASE_DATA_SUCCESS,
-    STATS_INPUTS_LOADING,
-    STATS_INPUTS_SUCCESS,
-    GET_TABLE_SETCIONS,
-    BASE_DATA_LOADING
+  BASE_DATA_SUCCESS,
+  STATS_INPUTS_LOADING,
+  STATS_INPUTS_SUCCESS,
+  GET_TABLE_SECTIONS,
+  BASE_DATA_LOADING
 } from './types';
-import axios from 'axios';
+
+import { api } from '../../api';
 import { getError } from './messages';
 
-useEffect(() => {
-  console.log("📌 dispatch getTableSections()");
-  dispatch(getTableSections());
-}, [dispatch]);
+export const getBaseData = () => async (dispatch) => {
+  try {
+    dispatch({ type: BASE_DATA_LOADING });
+    const res = await api.get('/serverdata/baseData');
+    dispatch({ type: BASE_DATA_SUCCESS, payload: res.data });
+  } catch (err) {
+    dispatch(getError(err));
+  }
+};
 
+export const getStatsInputs = (pathIds = []) => async (dispatch) => {
+  try {
+    dispatch({ type: STATS_INPUTS_LOADING });
 
-export const getBaseData = () => dispatch => {
-    dispatch({
-        type: BASE_DATA_LOADING
-    })
+    const res = await api.post('/serverdata/statsData', { pathIds });
 
-    axios.get('/api/serverdata/baseData')
-         .then(res => {
-             dispatch({
-                 type: BASE_DATA_SUCCESS,
-                 payload: res.data
-             })
-         })
-         .catch(err => {
-            dispatch(getError(err))
-         })
-}
+    dispatch({ type: STATS_INPUTS_SUCCESS, payload: res.data });
+  } catch (err) {
+    dispatch(getError(err));
+  }
+};
 
-export const getStatsInputs = pathIds => dispatch => {
-    dispatch({
-        type: STATS_INPUTS_LOADING
-    })
-
-    const body = JSON.stringify({
-        pathIds
-    })
-
-
-    axios.post('/api/serverdata/statsData', body)
-         .then(res => {
-             dispatch({
-                 type: STATS_INPUTS_SUCCESS,
-                 payload: res.data
-             })
-         })
-         .catch(err => {
-            dispatch(getError(err))
-         })
-}
-
-export const getTableSections = () => dispatch => {
-    axios.get('/api/serverdata/tableSections')
-         .then(res => dispatch({
-             type: GET_TABLE_SETCIONS,
-             payload: res.data
-         }))
-         .catch(err => {
-             dispatch(getError(err))
-         })
-}
+export const getTableSections = () => async (dispatch) => {
+  try {
+    dispatch({ type: STATS_INPUTS_LOADING }); // או תגדיר action נפרד אם יש לך
+    const res = await api.get('/serverdata/tableSections');
+    dispatch({ type: GET_TABLE_SECTIONS, payload: res.data });
+  } catch (err) {
+    dispatch(getError(err));
+  }
+};

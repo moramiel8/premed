@@ -10,7 +10,7 @@ import {
     THRESHOLD_UPDATE,
     THRESHOLD_DELETE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -31,7 +31,7 @@ export const tableError = () => {
 export const getTables = () => dispatch => {
     dispatch(tableLoad());
 
-    axios.get('/api/datatables')
+    api.get('/datatables')
          .then(res => { 
              dispatch({
                 type: TABLE_SUCCESS,
@@ -50,7 +50,7 @@ export const addTable = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/datatables', body)
+    api.post('/datatables', body)
          .then(res => {
              dispatch ({
                 type: TABLE_ADD,

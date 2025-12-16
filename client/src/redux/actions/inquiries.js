@@ -10,7 +10,7 @@ import {
     INQUIRY_CHANGE_STATUS,
     INQUIRY_UPDATE_STATUS_NOTE 
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -45,7 +45,7 @@ export const getInquiries = () => dispatch => {
 export const getUserInquiries = () => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.get('/api/inquiries/user')
+    api.get('/inquiries/user')
          .then(res => dispatch({
              type: INQUIRY_SUCCESS,
              payload: res.data
@@ -60,7 +60,7 @@ export const getUserInquiries = () => dispatch => {
 export const getUserInquiryTypes = () => dispatch => {
     dispatch(inquiryLoad());
 
-    axios.get('/api/inquiries/types')
+    api.get('/inquiries/types')
          .then(res => dispatch({
              type: GET_INQUIRY_TYPES,
              payload: res.data
@@ -78,7 +78,7 @@ export const addInquiry = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/inquiries', body)
+    api.post('/inquiries', body)
          .then(res => dispatch({
              type: INQUIRY_ADD,
              payload: res.data

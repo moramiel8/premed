@@ -13,8 +13,8 @@ import {
     DATA_FIELD_OPTION_DELETE,
     DATA_FIELD_ASSIGN_ROLE
 } from '../actions/types';
-import axios from 'axios';
 import { getMessage, getError } from './messages';
+import { api } from '../../api';
 
 // Basic types
 export const dataFieldLoad = () => {
@@ -109,7 +109,7 @@ export const getFieldsByPaths = data => dispatch => {
 export const getDataFields = () => dispatch => {
     dispatch(dataFieldLoad());
 
-    axios.get('/api/datafields')
+    api.get('/datafields')
          .then(res => dispatch(dataFieldSuccess(res.data)))
          .catch(err => {
              dispatch(dataFieldError());
@@ -120,7 +120,7 @@ export const getDataFields = () => dispatch => {
 export const getAllowedTypes = () => dispatch => {
     dispatch(dataFieldLoad);
 
-    axios.get('/api/datafields/allowedTypes')
+    api.get('/datafields/allowedTypes')
          .then(res => dispatch(allowedTypesGet(res.data)))
          .catch(() => {
              dispatch(dataFieldError());
@@ -132,7 +132,7 @@ export const addDataField = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/datafields', body)
+    api.post('/datafields', body)
          .then(res => dispatch(dataFieldAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }

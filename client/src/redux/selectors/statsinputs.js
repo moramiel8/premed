@@ -147,10 +147,10 @@ export const getCalcWithGroupArgs = createSelector(
         arg.type === 'group'))
 )
 
-export const getTableSectionsByPath = pathId => createSelector(
-    statsInputsSelector,
-    inputs => inputs.tableSections[pathId]
-)
+export const selectTableSectionsByPath = (pathId) => (state) =>
+  state?.statsinputs?.tableSections?.[pathId];
+
+
 
 export const getCalcsByUniAndPath = (pathId, uniId) => createSelector(
     threshFieldsSelector,

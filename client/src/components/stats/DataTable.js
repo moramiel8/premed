@@ -1,23 +1,29 @@
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTableSections } from '../../redux/actions/basedata';
-import { getTableSectionsByPath } from '../../redux/selectors/statsinputs';
-import TableHeaders from './data-table/table-headers/TableHeaders';
-import Loadbar from '../layout/Loadbar';
-import TableBody from './data-table/table-body/TableBody';
-import { selectTableData } from '../../redux/stats/userdata/real-data/selectors';
-import { isLoading } from '../../redux/loader/selectors';
-import { USER_DATA_PATH } from '../../redux/actions/types';
+import React, { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getTableSections as fetchTableSections } from "../../redux/actions/basedata";
+import { selectTableSectionsByPath } from "../../redux/selectors/statsinputs";
+
+import TableHeaders from "./data-table/table-headers/TableHeaders";
+import Loadbar from "../layout/Loadbar";
+import TableBody from "./data-table/table-body/TableBody";
+
+import { selectTableData } from "../../redux/stats/userdata/real-data/selectors";
+import { isLoading } from "../../redux/loader/selectors";
+import { USER_DATA_PATH } from "../../redux/actions/types";
+
+
 
 function DataTable({ pathId }) {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getTableSections())
-    }, [])
+  useEffect(() => {
+  dispatch(fetchTableSections());
+}, [dispatch, pathId]);
 
-    const tableSections = useSelector(
-        getTableSectionsByPath(pathId))
+
+  const tableSections = useSelector(selectTableSectionsByPath(pathId));
+
 
     const matchColor = useCallback((uni, isHeader) => {
         return {

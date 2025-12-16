@@ -9,10 +9,10 @@ import {
     QUEST_UPDATE,
     QUEST_DELETE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api'; 
 import { getMessage, getError } from '../actions/messages';
 
-const baseUrl = 'api/questions'
+const baseUrl = '/questions'
 
 // Basic types
 export const questGroupLoad = () => {
@@ -31,7 +31,7 @@ export const questGroupError = () => {
 export const getQuestGroupByPath = pathId => dispatch => {
     dispatch(questGroupLoad());
 
-    axios.get(`${baseUrl}/path/${pathId}`)
+    api.get(`${baseUrl}/path/${pathId}`)
          .then(res => dispatch({
              type: QUEST_GROUP_SUCCESS,
              payload: res.data
@@ -47,7 +47,7 @@ export const addQuestGroup = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post(baseUrl, body)
+    api.post(baseUrl, data)     
          .then(res => dispatch({
              type: QUEST_GROUP_ADD,
              payload: res.data
@@ -62,7 +62,7 @@ export const editQuestGroup = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`${baseUrl}/${id}`, body)
+    api.put(`${baseUrl}/${id}`, data)
          .then(res => dispatch({
              type: QUEST_GROUP_UPDATE,
              payload: res.data
@@ -76,7 +76,7 @@ export const editQuestGroup = (id, data) => dispatch => {
 
 export const deleteQuestGroup = id => dispatch => {
 
-    axios.delete(`${baseUrl}/${id}`)
+    api.delete(`${baseUrl}/${id}`)
          .then(res => {
              dispatch({
                  type: QUEST_GROUP_DELETE,
@@ -94,7 +94,7 @@ export const addQuest = (groupId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`${baseUrl}/${groupId}/addQuestion`, body)
+    api.put(`${baseUrl}/${groupId}/addQuestion`, body)
          .then(res => dispatch({
              type: QUEST_ADD,
              payload: {
@@ -112,7 +112,7 @@ export const editQuest = (groupId, questId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`${baseUrl}/${groupId}/${questId}`, body)
+    api.put(`${baseUrl}/${groupId}/${questId}`, body)
          .then(res => dispatch({
              type: QUEST_UPDATE,
              payload: {
@@ -129,7 +129,7 @@ export const editQuest = (groupId, questId, data) => dispatch => {
 
 export const deleteQuest = (groupId, questId) => dispatch => {
 
-    axios.put(`${baseUrl}/${groupId}/${questId}/remove`)
+    api.put(`${baseUrl}/${groupId}/${questId}/remove`)
          .then(res => {
              dispatch({
                 type: QUEST_DELETE,

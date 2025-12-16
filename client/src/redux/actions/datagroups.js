@@ -7,7 +7,7 @@ import {
     DATA_GROUP_DELETE,
     DATA_GROUP_ASSIGN_ROLE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -73,7 +73,7 @@ export const getGroupsByPaths = data => dispatch => {
 export const getDataGroups = () => dispatch => {
     dispatch(dataGroupLoad());
 
-    axios.get('/api/datagroups')
+    api.get('/datagroups')
          .then(res => dispatch(dataGroupSuccess(res.data)))
          .catch(err => {
              dispatch(dataGroupError());
@@ -88,7 +88,7 @@ export const addDataGroup = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/datagroups', body)
+    api.post('/datagroups', body)
          .then(res => dispatch(dataGroupAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }

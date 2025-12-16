@@ -8,7 +8,7 @@ import {
     STORED_CALCS_GET,
     CALC_ASSIGN_ROLE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -47,7 +47,7 @@ export const getCalcsByPaths = data => dispatch => {
 export const getCalcs = () => dispatch => {
     dispatch(calcLoad());
 
-    axios.get('/api/calculations')
+    api.get('/calculations')
          .then(res => { 
              dispatch({
                 type: CALC_SUCCESS,
@@ -64,7 +64,7 @@ export const addCalc = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/calculations', body)
+    api.post('/calculations', body)
          .then(res => {
              dispatch ({
                 type: CALC_ADD,
@@ -114,7 +114,7 @@ export const deleteCalc = id => dispatch => {
 export const getStoredCalcs = () => dispatch => {
     dispatch(calcLoad());
     
-    axios.get('/api/calculations/storedCalcs')
+    api.get('/calculations/storedCalcs')
          .then(res => dispatch({
              type: STORED_CALCS_GET,
              payload: res.data

@@ -6,7 +6,7 @@ import {
     UNI_UPDATE,
     UNI_DELETE,
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -44,7 +44,7 @@ export const getUnisByPaths = data => dispatch => {
 export const getUnis = () => dispatch => {
     dispatch(uniLoad());
 
-    axios.get('/api/universities')
+    api.get('/universities')
          .then(res => { 
              dispatch({
                 type: UNI_SUCCESS,
@@ -63,7 +63,7 @@ export const addUni = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('api/universities', body)
+    api.post('/universities', body)
          .then(res => {
              dispatch ({
                 type: UNI_ADD,

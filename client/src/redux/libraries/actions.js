@@ -10,7 +10,7 @@ import {
     LIB_ITEM_DELETE,
     LIB_ITEM_TOGGLE_VOTE
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from '../actions/messages';
 
 // Basic types
@@ -22,7 +22,7 @@ export const libraryLoad = () => {
 
 export const libraryError = (err) => dispatch => {
     dispatch(getError(err))
-    
+
     return dispatch({
         type: LIBRARY_ERROR
     })
@@ -32,14 +32,14 @@ export const libraryError = (err) => dispatch => {
 export const getLibraries = pathId => dispatch => {
     dispatch(libraryLoad());
 
-    axios.get(`/api/libraries/${pathId}`)
-         .then(res => dispatch({
-             type: LIBRARY_SUCCESS,
-             payload: res.data
-         }))
-         .catch(err => {
-             dispatch(libraryError(err))
-         })
+    api.get(`/libraries/${pathId}`)
+        .then(res => dispatch({
+            type: LIBRARY_SUCCESS,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(libraryError(err))
+        })
 }
 
 
@@ -50,13 +50,13 @@ export const addLibrary = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/libraries', body)
-         .then(res => dispatch({
-             type: LIBRARY_ADD,
-             payload: res.data
-         }))
-         .catch(err => {
-             dispatch(libraryError(err))
+    api.post('/libraries', body)
+        .then(res => dispatch({
+            type: LIBRARY_ADD,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(libraryError(err))
         })
 }
 
@@ -64,22 +64,22 @@ export const editLibrary = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.put(`/api/libraries/${id}`, body)
-         .then(res => dispatch({
-             type: LIBRARY_UPDATE,
-             payload: res.data
-         }))
-         .catch(err => {
-                dispatch(libraryError(err))
-            })
+    api.put(`/libraries/${id}`, body)
+        .then(res => dispatch({
+            type: LIBRARY_UPDATE,
+            payload: res.data
+        }))
+        .catch(err => {
+            dispatch(libraryError(err))
+        })
 }
 
-export const addLibItem = (id, data) => async(dispatch) => {
+export const addLibItem = (id, data) => async (dispatch) => {
     const body = JSON.stringify(data)
 
     try {
-        const res = await axios
-        .put(`api/libraries/${id}/items`, body)
+        const res = await api
+            .put(`/libraries/${id}/items`, body)
 
         dispatch({
             type: LIB_ITEM_ADD,
@@ -89,17 +89,17 @@ export const addLibItem = (id, data) => async(dispatch) => {
             }
         })
     }
-    catch(err) {
+    catch (err) {
         dispatch(libraryError(err))
     }
 }
 
-export const editLibItem = (id, itemId, data) => async(dispatch) => {
+export const editLibItem = (id, itemId, data) => async (dispatch) => {
     const body = JSON.stringify(data)
 
     try {
-        const res = await axios
-        .put(`api/libraries/${id}/items/${itemId}`, body)
+        const res = await api
+            .put(`/libraries/${id}/items/${itemId}`, body)
 
         dispatch({
             type: LIB_ITEM_EDIT,
@@ -110,14 +110,14 @@ export const editLibItem = (id, itemId, data) => async(dispatch) => {
             }
         })
     }
-    catch(err) {
+    catch (err) {
         dispatch(libraryError(err))
     }
 }
 
-export const voteLibItem = (id, itemId, isUpvote) => async(dispatch) => {
+export const voteLibItem = (id, itemId, isUpvote) => async (dispatch) => {
     try {
-        const res = await axios.put(`api/libraries/${id}/items/${itemId}/vote?isUpvote=${isUpvote}`)
+        const res = await api.put(`/libraries/${id}/items/${itemId}/vote?isUpvote=${isUpvote}`)
         dispatch({
             type: LIB_ITEM_TOGGLE_VOTE,
             payload: {
@@ -128,16 +128,16 @@ export const voteLibItem = (id, itemId, isUpvote) => async(dispatch) => {
             }
         })
     }
-    catch(err) {
+    catch (err) {
         dispatch(libraryError(err))
     }
 }
 
-export const deleteLibItem = (id, itemId) => async(dispatch) => {
+export const deleteLibItem = (id, itemId) => async (dispatch) => {
     try {
-        const res = await axios
-        
-        .put(`api/libraries/${id}/items/${itemId}/remove`)
+        const res = await api
+
+            .put(`/libraries/${id}/items/${itemId}/remove`)
 
         dispatch({
             type: LIB_ITEM_DELETE,
@@ -146,7 +146,7 @@ export const deleteLibItem = (id, itemId) => async(dispatch) => {
 
         dispatch(getMessage(res.data));
     }
-    catch(err) {
+    catch (err) {
         dispatch(libraryError(err))
     }
 }
@@ -155,16 +155,16 @@ export const deleteLibItem = (id, itemId) => async(dispatch) => {
 export const deleteLibrary = id => dispatch => {
     dispatch(libraryLoad());
 
-    axios.delete(`/api/libraries/${id}`)
-         .then(res => {
-             dispatch({
-                 type: LIBRARY_DELETE,
-                 payload: id
-             });
-             dispatch(getMessage(res.data));
-         })
-         .catch(err => {
+    api.delete(`/libraries/${id}`)
+        .then(res => {
+            dispatch({
+                type: LIBRARY_DELETE,
+                payload: id
+            });
+            dispatch(getMessage(res.data));
+        })
+        .catch(err => {
             dispatch(libraryError(err))
-         })
+        })
 }
 

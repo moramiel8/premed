@@ -16,7 +16,7 @@ import {
     STEP_ADD_UNI_CONTENT,
     STEP_FILTER_UNIS
 } from './types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -79,7 +79,7 @@ export const addStep = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/steps/addStep', body)
+    api.post('/steps/addStep', body)
          .then(res => dispatch(stepAdd(res.data)))
          .catch(err => {
             dispatch(stepError())

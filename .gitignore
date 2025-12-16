@@ -14,7 +14,7 @@ server/build
 !.env.example
 
 # docker
-*.log
+api.$1('/log
 data/
 mongo-data/
 

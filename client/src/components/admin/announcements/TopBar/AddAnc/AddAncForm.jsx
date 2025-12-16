@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux'
 import Checkbox from '../../../../common/Checkbox'
 import { getGroups } from '../../../../../redux/announcements/groups/selectors'
 
+
+
 function AddAncForm({ display, setDisplay }) {
     const [defaultValues] = useState({
         title: '',
@@ -23,6 +25,9 @@ function AddAncForm({ display, setDisplay }) {
         values,
         errors
     } = useForm(addAnc, defaultValues)
+
+    console.log('AddAncForm values:', values);
+    console.log('AddAncForm errors:', errors);
 
     const groups = useSelector(getGroups) || [];
 
@@ -40,7 +45,15 @@ const options = Array.isArray(groups)
         display={display}
         toggleModal={setDisplay}
         title="פרסום חדש">
-            <form onSubmit={handleSubmit}>
+           <form
+  onSubmit={(e) => {
+    console.log('SUBMIT CLICK');
+    console.log('values at submit:', values);
+    console.log('errors at submit:', errors);
+    handleSubmit(e);
+  }}
+>
+
                 <FormInput
                 name="title"
                 type="text"
@@ -50,6 +63,7 @@ const options = Array.isArray(groups)
                 error={errors.title} />
 
                 <Editor
+                name="content"
                 value={values.content}
                 onChange={(value) =>
                 handleChange({
@@ -58,12 +72,16 @@ const options = Array.isArray(groups)
                 }
                 />
 
-                <Dropdown 
-                options={options}
-                name="group"
-                onChange={handleChange}
-                placeholder="בחירה"
-                title="קבוצה" />
+               <Dropdown
+               options={options}
+               name="group"
+               onChange={(value) =>
+               handleChange({ target: { name: 'group', value } })
+              }
+             placeholder="בחירה"
+             title="קבוצה"
+                />
+
 
                 <Checkbox
                 label="שליחת מייל"

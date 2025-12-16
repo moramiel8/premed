@@ -23,10 +23,11 @@ function App() {
     const dispatch = useDispatch();
 
     // Check if there is a logged in user
-    useEffect(() => {
-        dispatch(getUser());
-        dispatch(getBaseData());
-    }, []);
+useEffect(() => {
+    dispatch(getUser());
+    dispatch(getBaseData());
+}, [dispatch]);
+
 
     moment.locale("he");
 

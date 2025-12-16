@@ -12,18 +12,15 @@ function Editor({ value, onChange, name }) {
     }
 
     return (
-        <CKEditor
-        editor={ ClassicEditor }
-        config={{
-            language: {
-                ui: 'he',
-                content: 'he'
-            }
-        }}
-        data={value}
-        onBlur={ (event, editor) => {
-            handleChange(editor.getData())
-        }} />
+      <CKEditor
+  editor={ClassicEditor}
+  data={value}
+  onChange={(event, editor) => {
+    onChange({ name, value: editor.getData() });
+  }}
+/>
+
+
     )
 }
 

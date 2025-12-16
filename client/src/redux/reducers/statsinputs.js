@@ -1,7 +1,7 @@
 import {
     STATS_INPUTS_LOADING,
     STATS_INPUTS_SUCCESS,
-    GET_TABLE_SETCIONS
+    GET_TABLE_SECTIONS
 } from '../actions/types';
 
 const initialState = {
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
                 ...payload
             }
 
-        case GET_TABLE_SETCIONS:
+        case GET_TABLE_SECTIONS:
             return {
                 ...state,
                 loading: false,

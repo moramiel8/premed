@@ -9,7 +9,7 @@ import {
     ITEM_UPDATE,
     ITEM_DELETE
 } from '../actions/types';
-import axios from 'axios';
+import { api } from '../../api';
 import { getMessage, getError } from './messages';
 
 // Basic types
@@ -76,7 +76,7 @@ export const itemDelete = sec => {
 export const getSections = () => dispatch => {
     dispatch(secLoad());
 
-    axios.get('/api/sections')
+    api.get('/sections')
          .then(res => dispatch(secSuccess(res.data)))
          .catch(err => {
              dispatch(secError());
@@ -89,7 +89,7 @@ export const addSection = data => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    axios.post('/api/sections', body)
+    api.post('/sections', body)
          .then(res => dispatch(secAdd(res.data)))
          .catch(err => dispatch(getError(err)))
 }

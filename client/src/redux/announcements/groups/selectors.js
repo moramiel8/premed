@@ -9,5 +9,5 @@ export const getGroups = createSelector(
 
 export const getGroupsByPath = pathId => createSelector(
     getGroups,
-    groups => groups.filter(group => group.paths?.includes(pathId))
+groups => groups.filter(group => group.paths?.includes(pathId))
 )

@@ -17,6 +17,7 @@ export default function validateForm(fields) {
 
 const validateField = (key, value) => {
     const configField = configFields[key];
+     if (!configField) return '';  
     // For every validation in a field
     for(let configItem in configField) {
         const message = configField[configItem].message;
