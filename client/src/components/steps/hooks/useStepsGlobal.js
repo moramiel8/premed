@@ -35,7 +35,7 @@ function useStepsGlobal(pathId) {
 
     // Match tree color according to relvant university
     const getTreeColor = uniData => {
-        const baseColor = '#486974'
+        const baseColor = '#6FC3C8'
         const singleUni = isSingleMatch(uniData, selUnis)
 
         if(singleUni) {

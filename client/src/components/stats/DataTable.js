@@ -28,7 +28,7 @@ function DataTable({ pathId }) {
     const matchColor = useCallback((uni, isHeader) => {
         return {
             backgroundColor: uni._id === 'no-uni'
-            ? isHeader ? '#486974' : '#48697460'
+            ? isHeader ? '#6FC3C8' : '#6FC3C860'
             : isHeader ? uni.color : uni.color + '50'
         }
     }, [])

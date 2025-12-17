@@ -6,7 +6,7 @@ function LoginLink() {
     return (
         <Link className="login-link" to="/login">
             <Login 
-            color="#486974"
+            color="#6FC3C8"
             className="login-link__login-icon" />
             <span className="login-link__login-icon__label">
                 התחברות

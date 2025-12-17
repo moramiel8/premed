@@ -11,7 +11,7 @@ function SideBarLinks() {
             url: '/profile',
             icon: ({ outlined }) => 
                 <Profile
-                color="#486974"
+                color="#6FC3C8"
                 width="2.5rem"
                 height="2.5rem"
                 outlined={outlined} />     
@@ -37,7 +37,7 @@ function SideBarLinks() {
         links.push({
             name: "ניהול",
             url: '/admin',
-            color: "#486974"
+            color: "#6FC3C8"
         })
     }
     

@@ -36,7 +36,7 @@ function DataBlock({
     }
 
     const titleStyle = {
-        backgroundColor: color || "#486974",
+        backgroundColor: color || "#6FC3C8",
         color: "#fff"
     }
 

@@ -9,25 +9,25 @@ class StepController {
             return res.status(200).send(step)
         }
 
-        catch(err) {
+        catch (err) {
             next(err)
         }
-     }
+    }
 
-     async getByPath(req, res, next) {
-         const {
-             pathId
-         } = req.body
-         
+    async getByPath(req, res, next) {
+        const {
+            pathId
+        } = req.body
+
         try {
             const step = await stepServiceInstance.getByPath(pathId)
-            
+
             return res.status(200).send(step)
         }
-        catch(err) {
+        catch (err) {
             next(err)
         }
-     }
+    }
 }
 
 export default StepController

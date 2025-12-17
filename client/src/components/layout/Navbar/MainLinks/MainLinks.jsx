@@ -65,7 +65,7 @@ function MainLinks() {
       icon: ({ outlined }) => (
         <Qna
           color="#fff"
-          secondaryColor="#486974"
+          secondaryColor="#6FC3C8"
           width="4rem"
           height="4rem"
           outlined={outlined}
