@@ -27,7 +27,7 @@ function SideBarLinks() {
         }, */
         {
             name: "יצירת קשר",
-            url: 'https://m.me/100015029253568',
+            url: 'https://m.me/mork0',
             external: true
         } 
     ]
