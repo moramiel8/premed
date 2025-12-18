@@ -29,7 +29,7 @@ export const commentError = (err) => dispatch => {
 export const getCommentsByItem = itemId => dispatch => {
     dispatch(commentLoad());
 
-    api.get(`/api/comments/${itemId}`)
+    api.get(`/comments/${itemId}`)
          .then(res => dispatch({
              type: COMMENT_GET_BY_ITEM,
              payload: res.data
@@ -59,7 +59,7 @@ export const editComment = (id, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    api.put(`/api/comments/${id}`, body)
+    api.put(`/comments/${id}`, body)
          .then(res => dispatch({
              type: COMMENT_UPDATE,
              payload: res.data
@@ -71,7 +71,7 @@ export const editComment = (id, data) => dispatch => {
 
 export const voteComment = id => async(dispatch) => {
     try {
-        const res = await api.put(`api/comments/${id}/vote`)
+        const res = await api.put(`/comments/${id}/vote`)
         dispatch({
             type: COMMENT_TOGGLE_LIKE,
             payload: {
@@ -89,7 +89,7 @@ export const voteComment = id => async(dispatch) => {
 export const deleteComment = id => dispatch => {
     dispatch(commentLoad());
 
-    api.delete(`/api/comments/${id}`)
+    api.delete(`/comments/${id}`)
          .then(res => {
              dispatch({
                  type: COMMENT_DELETE,

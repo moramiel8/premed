@@ -148,7 +148,7 @@ export const getUsersDataByPathTable = (tableId, pathId, filters, lastId) => dis
 
     
 
-    api.post(`api/userdata/${tableId}/${pathId}`, body)
+    api.post(`/userdata/${tableId}/${pathId}`, body)
          .then(res => { 
              dispatch({
                 type: isMore 
@@ -199,7 +199,7 @@ export const newUserTable = (tableId, data) => dispatch => {
     // Request body 
     const body = JSON.stringify(finalDataObj);
 
-    api.post(`api/userdata/newTable/${tableId}`, body)
+    api.post(`/userdata/newTable/${tableId}`, body)
          .then(res => {
              dispatch({
                  type: USER_DATA_ADD,
@@ -212,7 +212,7 @@ export const newUserTable = (tableId, data) => dispatch => {
 export const copyData = tableId => dispatch => {
     dispatch(dataLoad());
     
-    api.post(`api/userdata/copyData/${tableId}`)
+    api.post(`/userdata/copyData/${tableId}`)
          .then(res => {
              dispatch({
                  type: USER_DATA_ADD,
@@ -278,7 +278,7 @@ export const simulateCalcs = (
         tableYear
     });
 
-    api.post(`api/userdata/simulateCalcs/${tableId}`, body)
+    api.post(`/userdata/simulateCalcs/${tableId}`, body)
          .then(res => {
              dispatch ({
                 type: SIMULATE_CALCS_SUCCESS,
@@ -310,7 +310,7 @@ export const editUserDataPaths = (tableId, data) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    api.put(`api/userdata/editpaths/${tableId}`, body)
+    api.put(`/userdata/editpaths/${tableId}`, body)
          .then(res => 
             dispatch({
                 type: USER_DATA_UPDATE_PATHS,
@@ -353,7 +353,7 @@ export const insertData = (data, tableId) => dispatch => {
     // Request body
     const body = JSON.stringify(data);
 
-    api.put(`api/userdata/insertdata/${tableId}`, body)
+    api.put(`/userdata/insertdata/${tableId}`, body)
          .then(res => {
             loaderInstance.type = USER_DATA_INSERT_SUCCESS
             dispatch({
@@ -376,7 +376,7 @@ export const insertData = (data, tableId) => dispatch => {
 export const toggleEnabled = tableId => dispatch => {
     dispatch(dataLoadSoft());
 
-    api.put(`api/userdata/toggleEnabled/${tableId}`)
+    api.put(`/userdata/toggleEnabled/${tableId}`)
          .then(res => 
             dispatch({
                 type: USER_DATA_TOGGLE_ENABLED,
@@ -405,7 +405,7 @@ export const executeCalc = (calcsToExec, selTableId) => dispatch => {
 
     const body = JSON.stringify(data)
 
-    api.put(`/api/userdata/execCalc`, body)
+    api.put(`/userdata/execCalc`, body)
          .then(res => dispatch({
              type: EXEC_CALC_SUCCESS,
              payload: res.data
@@ -420,7 +420,7 @@ export const executeCalc = (calcsToExec, selTableId) => dispatch => {
 export const deleteUserData = userId => dispatch => {
     dispatch(dataLoad());
 
-    api.delete(`api/userdata/${userId}`)
+    api.delete(`/userdata/${userId}`)
          .then(res => {
              dispatch({
                 type: USER_DATA_DELETE,
@@ -439,7 +439,7 @@ export const addCustomGroup = (data, tableId) => dispatch => {
 
     dispatch(dataLoadSoft())
 
-    api.put(`api/userdata/addCustomGroup/${tableId}`, body)
+    api.put(`/userdata/addCustomGroup/${tableId}`, body)
          .then(res => dispatch({
              type: ADD_CUSTOM_GROUP,
              payload: res.data
@@ -455,7 +455,7 @@ export const removeValue = (data, tableId) => dispatch => {
 
     dispatch(dataLoadSoft())
 
-    api.put(`api/userdata/removedata/${tableId}`, body)
+    api.put(`/userdata/removedata/${tableId}`, body)
          .then(res => {
             const changed = {
                 group: data.groupId,
