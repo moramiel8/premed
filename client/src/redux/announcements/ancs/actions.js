@@ -56,7 +56,7 @@ export const getAncs = () => dispatch => {
     dispatch(ancLoad());
 
     api
-        .get('/api/announcements')
+        .get('/announcements')
         .then(res => dispatch(ancSuccess(res.data)))
         .catch(err => {
             // Get message
@@ -70,7 +70,7 @@ export const getAncsList = data => dispatch => {
     const body = JSON.stringify(data)
 
     api
-        .post('/api/announcements/ancsList', body)
+        .post('/announcements/ancsList', body)
         .then(res => dispatch({
             type: ANC_SUCCESS,
             payload: res.data
@@ -103,7 +103,7 @@ export const editAnc = (id, data) => dispatch => {
     const body = JSON.stringify(data)
 
     api
-        .put(`/api/announcements/${id}`, body)
+        .put(`/announcements/${id}`, body)
         .then(res => dispatch(ancUpdate(res.data)))
         .catch(err => {
             // Get message
@@ -116,7 +116,7 @@ export const deleteAnc = id => dispatch => {
     dispatch(ancLoad());
 
     api
-        .delete(`/api/announcements/${id}`)
+        .delete(`/announcements/${id}`)
         .then(res =>
             // Get message 
             dispatch(ancDelete(id)))
