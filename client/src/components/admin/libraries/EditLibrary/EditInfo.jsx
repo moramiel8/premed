@@ -26,17 +26,17 @@ function EditInfo({ lib }) {
         })
     }
 
+    const editorConfig = useMemo(() => ({
+  language: { ui: 'he', content: 'he' }
+}), []);
+
     return (
+        
         <form onSubmit={handleSubmit} noValidate>
             <CKEditor
             editor={ ClassicEditor }
-            config={{
-                language: {
-                    ui: 'he',
-                    content: 'he'
-                }
-            }}
-            data={values.info}
+            config={editorConfig}
+            data={values.info ?? ''}
             onChange={ (event, editor) => {
                 changeContent(editor.getData(), event)
             }} />

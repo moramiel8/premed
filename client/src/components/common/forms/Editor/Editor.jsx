@@ -14,7 +14,7 @@ function Editor({ value, onChange, name }) {
     return (
       <CKEditor
   editor={ClassicEditor}
-  data={value}
+  data={value ?? ''}
   onChange={(event, editor) => {
     onChange({ name, value: editor.getData() });
   }}

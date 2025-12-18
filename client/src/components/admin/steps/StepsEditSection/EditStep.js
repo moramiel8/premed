@@ -61,6 +61,10 @@ function EditStep({ display, toggleDisplay }) {
     const parentStep = useSelector(getStepById(values.parentId))
     const prevStep = useSelector(getStepById(values.prevId))
 
+    const editorConfig = useMemo(() => ({
+    language: { ui: 'he', content: 'he' }
+    }), []);
+
     return (
         <Modal
         display={display}
@@ -96,17 +100,13 @@ function EditStep({ display, toggleDisplay }) {
                 }
 
                 <CKEditor
-                editor={ ClassicEditor }
-                config={{
-                    language: {
-                        ui: 'he',
-                        content: 'he'
-                    }
-                }}
-                data={values.genContent}
-                onChange={ (event, editor) => {
-                    changeContent(editor.getData())
-                }} />
+                key={selStep?._id}   
+                editor={ClassicEditor}
+                config={editorConfig}
+                data={values?.genContent ?? ''} 
+                onChange={(event, editor) => changeContent(editor.getData())}
+                 />
+
 
                 {values.uniContent &&  
                     <EditUniContent
