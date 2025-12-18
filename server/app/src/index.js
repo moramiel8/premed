@@ -14,6 +14,8 @@ const helmet = require('helmet')
 // Init app
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(helmet())
 app.use(helmet.hidePoweredBy())
 

@@ -9,7 +9,6 @@ import "moment/locale/he";
 import { getBaseData } from "./redux/actions/basedata";
 import Navbar from "./components/layout/Navbar/Navbar";
 import Banner from "./components/layout/Banner/Banner";
-import useAxios from "./axios";
 import MessageAlerts from "./components/layout/MessageAlerts/MessageAlerts";
 import { isLoading } from "./redux/loader/selectors";
 import { GET_USER } from "./redux/auth/types";
@@ -19,7 +18,6 @@ import { BASE_DATA } from "./redux/actions/types";
 import NoInternet from "./informatives/NoInternet";
 
 function App() {
-    useAxios()
     const dispatch = useDispatch();
 
     // Check if there is a logged in user

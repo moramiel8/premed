@@ -5,24 +5,34 @@ const refreshTokenExp = 31536000 // 1 year
 const accessTokenExp = 900 // 15 minutes
 const resetPasswordTokenExp = 600 // 10 minutes
 
+const isProd = process.env.NODE_ENV === 'production';
+
+const baseCookieOptions = {
+  httpOnly: true,
+  secure: isProd,                 // חובה אם SameSite=None
+  sameSite: isProd ? 'none' : 'lax',
+  // אם יש לך תרחיש של api.* מול www.* או תתי-דומיין:
+  // domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
+};
+
 const refreshCookieSettings = {
-    name: '_rt',
-    options: {
-        httpOnly: true,
-        path: '/api/auth/refreshToken',
-        maxAge: refreshTokenExp * 1000,
-        secure: process.env.NODE_ENV === 'production'
-    }
-}
+  name: '_rt',
+  options: {
+    ...baseCookieOptions,
+    path: '/api/auth/refreshToken',
+    maxAge: refreshTokenExp * 1000,
+  }
+};
 
 const accessCookieSettings = {
-    name: '_at',
-    options: {
-        httpOnly: true,
-        maxAge: accessTokenExp * 1000,
-        secure: process.env.NODE_ENV === 'production'
-    }
-}
+  name: '_at',
+  options: {
+    ...baseCookieOptions,
+    path: '/',                     // שיהיה מפורש
+    maxAge: accessTokenExp * 1000,
+  }
+};
+
 
 export const cookieSettings = {
     access: accessCookieSettings,
