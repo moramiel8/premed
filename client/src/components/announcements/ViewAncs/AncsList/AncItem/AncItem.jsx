@@ -28,8 +28,9 @@ function AncItem({ anc }) {
                 </p>
             </div>
             <div className="anc-item__group">
-                {anc.group.name}
-            </div>
+          {anc.group?.name || 'ללא קבוצה'}
+        </div>
+
             {isAdmin &&
                 <AncOptions anc={anc} />
             }
