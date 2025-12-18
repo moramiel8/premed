@@ -16,6 +16,7 @@ function SideBarLinks() {
                 height="2.5rem"
                 outlined={outlined} />     
         },
+      /*
         {
             name: 'קנייה/מכירה',
             isUpcoming: true,
@@ -23,7 +24,7 @@ function SideBarLinks() {
         {
             name: 'בלוג',
             isUpcoming: true,
-        },
+        }, */
         {
             name: "יצירת קשר",
             url: 'https://m.me/100015029253568',

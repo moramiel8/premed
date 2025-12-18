@@ -12,6 +12,7 @@ server/build
 .env
 .env.*
 !.env.example
+.env.production
 
 # docker
 api.$1('/log

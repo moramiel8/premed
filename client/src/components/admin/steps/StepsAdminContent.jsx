@@ -15,9 +15,7 @@ function StepsAdminContent() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(pathId) {
-            dispatch(getSteps(pathId))
-        }
+         dispatch(getSteps(pathId))
     }, [pathId])
 
 

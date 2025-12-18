@@ -64,7 +64,10 @@ export const stepDelete = id => {
 export const getSteps = pathId => dispatch => {
     dispatch(stepLoad());
 
-    if (!pathId) return;
+if (!pathId) {
+  dispatch(stepSuccess([]));
+  return;
+}
 
     api.get(`/steps/${pathId}`)
   .then(res => dispatch(stepSuccess(res.data)))
@@ -279,7 +282,6 @@ export const deleteStep = id => dispatch => {
                  type: STEP_DELETE,
                  payload: id
              });
-             dispatch(getSteps());
              dispatch(getMessage(res.data));
          })
          .catch(err => {
@@ -287,4 +289,5 @@ export const deleteStep = id => dispatch => {
             dispatch(stepError())
          })
 }
+
 
