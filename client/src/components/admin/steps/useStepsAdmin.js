@@ -1,50 +1,36 @@
-import { useState, useEffect } from 'react'
-import useStepsGlobal from '../../steps/hooks/useStepsGlobal'
-import useBaseData from '../../serverData/hooks/useBaseData'
+import { useState } from 'react'
+import useStepsGlobal from '../../steps/hooks/useStepsGlobal';
 
 function useStepsAdmin() {
-    const [selPath, setSelPath] = useState(null)
+  const [selPath, setSelPath] = useState({ value: 'six-year', label: 'שש-שנתי' });
 
-    const selectPath = selected => {
-        setSelPath(selected)
-    }
+  const selectPath = selected => setSelPath(selected);
 
-    const [selStep, setSelStep] = useState(null)
-    const [displayEdit, setDisplayEdit] = useState(false)
+  const [selStep, setSelStep] = useState({});
+  const [displayEdit, setDisplayEdit] = useState(false);
 
-    const pathId = selPath?.value
+  const pathId = selPath?.value;
 
-    const toggleEdit = toggle => {
-        setDisplayEdit(toggle)
-    }
+  const toggleEdit = toggle => setDisplayEdit(toggle);
 
-    const selectStep = (event, step) => {
-        if (event) event.stopPropagation()
-        setSelStep(step)
-        setDisplayEdit(true)
-    }
+  const selectStep = (event, step) => {
+    if (event) event.stopPropagation();
+    setSelStep(step);
+    setDisplayEdit(true);
+  }
 
-    const { baseData } = useBaseData()
+  const stepsGlobal = useStepsGlobal(pathId);
 
-    useEffect(() => {
-        if (!selPath && baseData?.paths?.length) {
-            const first = baseData.paths[0]
-            setSelPath({ value: first._id, label: first.name })
-        }
-    }, [baseData, selPath])
-
-    const stepsGlobal = useStepsGlobal(pathId)
-
-    return {
-        pathId,
-        selectPath,
-        selStep,
-        selectStep,
-        displayEdit,
-        toggleEdit,
-        isStepsAdmin: true,
-        ...stepsGlobal
-    }
+  return {
+    pathId,
+    selectPath,
+    selStep,
+    selectStep,
+    displayEdit,
+    toggleEdit,
+    isStepsAdmin: true,
+    ...stepsGlobal
+  }
 }
 
 export default useStepsAdmin
