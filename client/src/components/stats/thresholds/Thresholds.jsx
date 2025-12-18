@@ -31,7 +31,7 @@ function Thresholds() {
         <div className="thresholds">
             <div className="thresholds__contact-us">
                 יש לכם עדכון סכם קבלה או דחייה? ראיתם סכמים שגויים או לא נכונים?
-                &nbsp;<a href="https://m.me/100015029253568"
+                &nbsp;<a href="https://m.me/mork10"
                 target="_blank"
                 rel="noopener noreferrer">
                     דברו איתנו

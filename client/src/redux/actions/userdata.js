@@ -112,7 +112,7 @@ export const getOneUserData = tableId => dispatch => {
         tableId
     })
 
-    api.post('api/userdata/user', body)
+    api.post('/userdata/user', body)
          .then(res => { 
              dispatch({
                 type: USER_DATA_SUCCESS,
@@ -177,7 +177,7 @@ export const addUserData = data => dispatch => {
     // Request body
     const body = JSON.stringify(finalDataObj);
 
-    api.post('api/userdata', body)
+    api.post('/userdata', body)
          .then(res => {
              dispatch ({
                 type: USER_DATA_ADD,
@@ -329,7 +329,7 @@ export const editUserDataPaths = (tableId, data) => dispatch => {
 export const switchTable = () => dispatch => {
     dispatch(dataLoad());
 
-    api.put('api/userdata/switchtable')
+    api.put('/userdata/switchtable')
          .then(res => dispatch({
              type: USER_DATA_SWITCH_TABLE,
              // returns switched table
