@@ -61,14 +61,19 @@ function AddAncForm({ display, setDisplay }) {
           error={errors.title}
         />
 
-      <Editor
-       name="content"
-       value={values.content}
-       editorKey="new-announcement"
-       onChange={({ name, value }) =>
-       handleChange({ target: { name, value } })
-    }
-    />
+     <Editor
+      name="content"
+      value={values.content}
+      editorKey="new-announcement"
+      onChange=
+      {({ name, value }) => handleChange({
+         target:
+         {
+          name,
+          value 
+          } 
+          })}
+/>
 
         <Dropdown
           options={options}
