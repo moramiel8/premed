@@ -17,53 +17,40 @@ function AddAncForm({ display, setDisplay }) {
 
   const { handleChange, handleSubmit, values, errors } = useForm(addAnc, defaultValues)
 
-  // ✅ נטען מקומית מה־baseData
   const [groups, setGroups] = useState([])
-  const [groupsLoading, setGroupsLoading] = useState(false)
+  const [loadingGroups, setLoadingGroups] = useState(false)
 
   useEffect(() => {
     let cancelled = false
 
-    const loadGroups = async () => {
+    const load = async () => {
       try {
-        setGroupsLoading(true)
-
-        const res = await fetch('/api/serverdata/baseData', {
-          method: 'GET',
-          credentials: 'include', // חשוב אם יש auth cookies
-          headers: { 'Accept': 'application/json' }
+        setLoadingGroups(true)
+        const res = await fetch('/api/announcements/groups', {
+          credentials: 'include',
+          headers: { Accept: 'application/json' }
         })
-
-        if (!res.ok) throw new Error(`baseData failed: ${res.status}`)
-
         const data = await res.json()
-        const nextGroups = Array.isArray(data?.groups) ? data.groups : []
 
-        if (!cancelled) setGroups(nextGroups)
+        const list = Array.isArray(data) ? data : (data?.groups || [])
+
+        if (!cancelled) setGroups(list)
       } catch (e) {
-        console.error('Failed loading groups:', e)
+        console.error('Failed to load announcement groups:', e)
         if (!cancelled) setGroups([])
       } finally {
-        if (!cancelled) setGroupsLoading(false)
+        if (!cancelled) setLoadingGroups(false)
       }
     }
 
-    // נטען רק כשהמודאל נפתח
-    if (display) loadGroups()
-
+    if (display) load()
     return () => { cancelled = true }
   }, [display])
 
-  const options = Array.isArray(groups)
-    ? groups.map(g => ({ name: g.name, value: g._id }))
-    : []
+  const options = groups.map(g => ({ name: g.name, value: g._id }))
 
   return (
-    <Modal
-      display={display}
-      toggleModal={setDisplay}
-      title="פרסום חדש"
-    >
+    <Modal display={display} toggleModal={setDisplay} title="פרסום חדש">
       <form onSubmit={handleSubmit}>
         <FormInput
           name="title"
@@ -88,7 +75,7 @@ function AddAncForm({ display, setDisplay }) {
           onChange={(value) =>
             handleChange({ target: { name: 'group', value } })
           }
-          placeholder={groupsLoading ? 'טוען קבוצות…' : 'בחירה'}
+          placeholder={loadingGroups ? 'טוען…' : 'בחירה'}
           title="קבוצה"
         />
 
@@ -99,9 +86,7 @@ function AddAncForm({ display, setDisplay }) {
           checked={values.shouldEmail}
         />
 
-        <button type="submit">
-          שליחה
-        </button>
+        <button type="submit">שליחה</button>
       </form>
     </Modal>
   )
