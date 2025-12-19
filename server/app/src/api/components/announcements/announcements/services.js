@@ -1,53 +1,56 @@
-const Announcement = require('./db/model')
-
+const Announcement = require('./db/model');
 
 export function getLast() {
-    return Announcement.get(5)
+  return Announcement.get(5);
 }
 
-/* This service receives the id of the last announcement 
-    that was sent. */
 export async function getAncsList(filters) {
-    const anc = await Announcement.findById(filters.lastAncId) 
+  const anc = await Announcement.findById(filters.lastAncId);
 
-    if(anc) {
-        filters.maxDate = anc.date
-    }
+  if (anc) filters.maxDate = anc.date;
+  if (!filters.maxDate) filters.maxDate = new Date();
+  if (!filters.minDate) filters.minDate = new Date(1997, 2, 7);
 
-    if(!filters.maxDate) {
-        filters.maxDate = new Date()
-    }
-
-    if(!filters.minDate) {
-        filters.minDate = new Date(1997, 2, 7)
-    }
-
-    return Announcement.filterAncs(filters, 10)
+  return Announcement.filterAncs(filters, 10);
 }
 
 // Post new announcement
 export async function create(data, userId) {
-    const newAnc = new Announcement({
-        ...data,
-        user: userId
-    })
+  const groupId =
+    data.groupId ??
+    (data.group && typeof data.group === 'object' ? data.group.value : data.group);
 
-    const anc = await newAnc.save()
+  const payload = {
+    title: data.title,
+    content: data.content,
+    user: userId,
+  };
 
-    return anc
+  if (groupId) payload.group = groupId;
+
+  const newAnc = new Announcement(payload);
+  return await newAnc.save();
 }
 
 export async function edit(id, data) {
-    const anc = await Announcement.getByIdOrFail(id)
-    anc.set(data)
+  const groupId =
+    data.groupId ??
+    (data.group && typeof data.group === 'object' ? data.group.value : data.group);
 
-    await anc.save()
-    
-    return anc
+  const anc = await Announcement.getByIdOrFail(id);
+
+  if (typeof data.title !== 'undefined') anc.title = data.title;
+  if (typeof data.content !== 'undefined') anc.content = data.content;
+
+  if (typeof groupId !== 'undefined') {
+    anc.group = groupId || undefined;
+  }
+
+  await anc.save();
+  return anc;
 }
 
 export async function remove(id) {
-    const anc = await Announcement.getByIdOrFail(id)
-
-    return anc.remove()
+  const anc = await Announcement.getByIdOrFail(id);
+  return anc.remove();
 }
