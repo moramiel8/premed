@@ -15,77 +15,70 @@ const { AncNotExist, SuccessDelete } = ancMessage;
 // @desc    Get anouncement by id
 // @access  Public
 router.get('/:id', (req, res, next) => {
-    Anouncement.findById(req.params.id)
-        .select("-userId")
-        .then(anc => {
-            if(!anc) return res.status(AncNotExist.status).json(AncNotExist.msg);
-            
-            return res.json(anc);
-        })
-        .catch(next)
-})
+  Anouncement.findById(req.params.id)
+    .select('-userId')
+    .then((anc) => {
+      if (!anc) return res.status(AncNotExist.status).json(AncNotExist.msg);
+      return res.json(anc);
+    })
+    .catch(next);
+});
 
 // @route   GET api/anouncements
 // @desc    Get all anouncements without author Id
 // @access  Public
-router.get('/', (req, res, next) => { 
-    const date = new Date()
+router.get('/', (req, res, next) => {
+  const date = new Date();
 
-    Anouncement.find({ date: {
-        $lte: Date.now(), 
-        $gte: date.setMonth(date.getMonth() - 2)
-       }})
-        .select("-userId")
-        .populate("group")
-        .sort({ date: '-1'})
-        .then(anc => res.json(anc))
-        .catch(next)
-})
+  Anouncement.find({
+    date: {
+      $lte: Date.now(),
+      $gte: date.setMonth(date.getMonth() - 2)
+    }
+  })
+    .select('-userId')
+    .populate('group')
+    .sort({ date: '-1' })
+    .then((anc) => res.json(anc))
+    .catch(next);
+});
 
 // @route   GET api/anouncements/all/extended
 // @desc    Get all anouncements with author Id
 // @access  Admin
-router.get('/all/extended', [auth, authAdmin], (req, res, next) => { 
-    Anouncement.find()
-        .then(anc => res.json(anc))
-        .catch(next)
-})
+router.get('/all/extended', [auth, authAdmin], (req, res, next) => {
+  Anouncement.find()
+    .then((anc) => res.json(anc))
+    .catch(next);
+});
 
 // @route   POST api/anouncements
 // @desc    Create new anouncement
 // @access  Admin
 router.post('/', [auth, authAdmin], (req, res, next) => {
-    const { 
-        title,
-        content
-        } = req.body;
+  const { title, content } = req.body;
 
-    
-    const groupId = req.body.groupId ?? req.body.group?.value;
+  // Accept both formats:
+  // { groupId: "..." } OR { group: { value: "..." } }
+  const groupId = req.body.groupId ?? (req.body.group && req.body.group.value);
 
-     res.locals.model = modelName;
-     const userId = res.locals.user.id;
+  res.locals.model = modelName;
+  const userId = res.locals.user.id;
 
-     if (!groupId) {
-    return res.status(400)
-    .json(
-        { msg: 'groupId is required' }
-    );
+  if (!groupId) {
+    return res.status(400).json({ msg: 'groupId is required' });
   }
 
-    // Create new anouncement
-    const newAnc = new Anouncement({
+  const newAnc = new Anouncement({
     title,
     content,
     userId,
     group: groupId
   });
 
-  newAnc.save()
-    .then(async (anc) => {
-      await anc.populate('group');
-      return res.json(anc);
-    })
+  newAnc
+    .save()
+    .then((anc) => res.json(anc)) // no populate needed for create response
     .catch(next);
 });
 
@@ -93,57 +86,53 @@ router.post('/', [auth, authAdmin], (req, res, next) => {
 // @desc    Update anouncement
 // @access  Admin
 router.put('/:id', [auth, authAdmin], (req, res, next) => {
-    const {
-        title,
-        content,
-        groupId
-    } = req.body;
+  const { title, content } = req.body;
 
-    res.locals.model = modelName;
+  // Accept both formats on update as well
+  const groupId = req.body.groupId ?? (req.body.group && req.body.group.value);
 
-    const ancId = req.params.id;
-    const userId = res.locals.user.id;
+  res.locals.model = modelName;
 
-    Anouncement.findById(ancId)
-              .then(anc => {
-                if(!anc) return res.status(AncNotExist.status).send(AncNotExist.msg)
-                    
-                anc.title = title;
-                anc.content = content;  
-                anc.userId = userId;
-                anc.group = groupId  
+  const ancId = req.params.id;
+  const userId = res.locals.user.id;
 
-                anc.save()
-                    .then(anc => {
-                        async function populateAnc() {
-                            await anc.populate("group").execPopulate();
-                            return res.json(anc); 
-                        } 
-                        populateAnc();
-                    })
-                    .catch(next)
-                })
-              .catch(next);
-})
+  if (!groupId) {
+    return res.status(400).json({ msg: 'groupId is required' });
+  }
+
+  Anouncement.findById(ancId)
+    .then((anc) => {
+      if (!anc) return res.status(AncNotExist.status).send(AncNotExist.msg);
+
+      anc.title = title;
+      anc.content = content;
+      anc.userId = userId;
+      anc.group = groupId;
+
+      anc
+        .save()
+        .then((saved) => res.json(saved)) // avoid execPopulate compatibility issues
+        .catch(next);
+    })
+    .catch(next);
+});
 
 // @route   DELETE api/anouncements/:id
 // @desc    Delete anouncement
 // @access  Admin
 router.delete('/:id', [auth, authAdmin], (req, res, next) => {
+  const ancId = req.params.id;
 
-    const ancId = req.params.id;
+  Anouncement.findById(ancId)
+    .then((anc) => {
+      if (!anc) return res.status(AncNotExist.status).send(AncNotExist.msg);
 
-    Anouncement.findById(ancId)
-              .then(anc => {
-                if(!anc) return res.status(AncNotExist.status).send(AncNotExist.msg);
-
-                anc.remove()
-                    .then(() => {
-                        return res.send(SuccessDelete.msg)
-                    })
-                    .catch(next)
-              })
-              .catch(next);
-})
+      anc
+        .remove()
+        .then(() => res.send(SuccessDelete.msg))
+        .catch(next);
+    })
+    .catch(next);
+});
 
 module.exports = router;
