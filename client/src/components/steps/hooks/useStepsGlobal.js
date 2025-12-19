@@ -1,32 +1,36 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { stepsFilterUnis } from '../../../redux/actions/steps'
-import { getStepsByUnis } from '../../../redux/selectors/steps'
 import { getUnisByPath } from '../../../redux/selectors/unis'
+import { stepsSelector } from '../../../redux/selectors/steps'   // <-- שים לב: זה קיים אצלך
 import { addOrRemove } from '../../../utils/arrays'
 import { isSingleMatch } from './utils'
 
 function useStepsGlobal(pathId) {
-  const unis = useSelector(getUnisByPath(pathId))
+  const unisSelector = useMemo(() => getUnisByPath(pathId), [pathId])
+  const unis = useSelector(unisSelector)
+
   const [selUnis, setSelUnis] = useState([])
 
-  // ✅ תיקון: פונקציה אחת בלבד
   const selectUni = (uniObj) => {
     const stageUnis = addOrRemove(selUnis, uniObj.value)
     setSelUnis(stageUnis)
   }
 
-  // ✅ תיקון: לרוץ גם כשה-Unis נטענים
   useEffect(() => {
     if (pathId && unis?.length) {
-      setSelUnis(unis.map((uni) => uni._id))
+      const next = unis.map((u) => u._id)
+      if (next.join('|') !== selUnis.join('|')) {
+        setSelUnis(next)
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathId, unis])
 
   const dispatch = useDispatch()
-  const steps = useSelector(getStepsByUnis(selUnis))
 
-  // (מומלץ) לא לחסום dispatch על length>0 כדי לא להשאיר מצב "תקוע"
+  const steps = useSelector(stepsSelector)
+
   useEffect(() => {
     dispatch(stepsFilterUnis(selUnis))
   }, [selUnis, dispatch])
@@ -39,7 +43,6 @@ function useStepsGlobal(pathId) {
       const color = unis?.find((uni) => singleUni === uni._id)?.color
       return color || baseColor
     }
-
     return baseColor
   }
 
