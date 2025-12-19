@@ -1,34 +1,17 @@
-import React, { useEffect, useRef } from 'react'
-import CKEditor from '@ckeditor/ckeditor5-react'
+import React, { useMemo } from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-function Editor({ value, onChange, name }) {
-  const editorRef = useRef(null)
-  const lastRef = useRef(value ?? '')
-
-  useEffect(() => {
-    const next = value ?? ''
-    if (!editorRef.current) {
-      lastRef.current = next
-      return
-    }
-
-    if (next !== lastRef.current) {
-      lastRef.current = next
-      editorRef.current.setData(next)
-    }
-  }, [value])
+function Editor({ value, onChange, name, editorKey = 'default' }) {
+  const initialData = useMemo(() => (value ?? ''), [editorKey]) // חשוב: תלוי ב-editorKey בלבד
 
   return (
     <CKEditor
+      key={editorKey}
       editor={ClassicEditor}
-      data={lastRef.current}
-      onReady={(editor) => {
-        editorRef.current = editor
-      }}
+      data={initialData}
       onChange={(event, editor) => {
         const data = editor.getData()
-        lastRef.current = data
         onChange({ name, value: data })
       }}
     />
