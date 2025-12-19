@@ -62,11 +62,11 @@ function AddAncForm({ display, setDisplay }) {
         />
 
       <Editor
-      key="new-announcement"
-      name="content"
-      value={values.content}
-      onChange={({ name, value }) =>
-     handleChange({ target: { name, value } })
+       name="content"
+       value={values.content}
+       editorKey="new-announcement"
+       onChange={({ name, value }) =>
+       handleChange({ target: { name, value } })
     }
     />
 
