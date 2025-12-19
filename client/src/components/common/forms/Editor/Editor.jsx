@@ -1,27 +1,38 @@
-import React from 'react'
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import React, { useEffect, useRef } from 'react'
+import CKEditor from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 function Editor({ value, onChange, name }) {
+  const editorRef = useRef(null)
+  const lastRef = useRef(value ?? '')
 
-    const handleChange = data => {
-        onChange({
-            name,
-            value: data
-        })
+  useEffect(() => {
+    const next = value ?? ''
+    if (!editorRef.current) {
+      lastRef.current = next
+      return
     }
 
-    return (
-      <CKEditor
-  editor={ClassicEditor}
-  data={value ?? ''}
-  onChange={(event, editor) => {
-    onChange({ name, value: editor.getData() });
-  }}
-/>
+    if (next !== lastRef.current) {
+      lastRef.current = next
+      editorRef.current.setData(next)
+    }
+  }, [value])
 
-
-    )
+  return (
+    <CKEditor
+      editor={ClassicEditor}
+      data={lastRef.current}
+      onReady={(editor) => {
+        editorRef.current = editor
+      }}
+      onChange={(event, editor) => {
+        const data = editor.getData()
+        lastRef.current = data
+        onChange({ name, value: data })
+      }}
+    />
+  )
 }
 
 export default Editor
