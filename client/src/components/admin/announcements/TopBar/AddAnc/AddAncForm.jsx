@@ -1,100 +1,110 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '../../../../layout/Modal'
 import useForm from '../../../../../forms/useForm'
 import { addAnc } from '../../../../../redux/announcements/ancs/actions'
 import FormInput from '../../../../common/FormInput'
 import Editor from '../../../../common/forms/Editor/Editor'
 import Dropdown from '../../../../common/Dropdown'
-import { useSelector } from 'react-redux'
 import Checkbox from '../../../../common/Checkbox'
-import { getGroups } from '../../../../../redux/announcements/groups/selectors'
-
-
 
 function AddAncForm({ display, setDisplay }) {
-    const [defaultValues] = useState({
-        title: '',
-        content: '',
-        group: '',
-        shouldEmail: false
-    })
+  const [defaultValues] = useState({
+    title: '',
+    content: '',
+    group: '',
+    shouldEmail: false
+  })
 
-    const {
-        handleChange,
-        handleSubmit,
-        values,
-        errors
-    } = useForm(addAnc, defaultValues)
+  const { handleChange, handleSubmit, values, errors } = useForm(addAnc, defaultValues)
 
-    console.log('AddAncForm values:', values);
-    console.log('AddAncForm errors:', errors);
+  // ✅ נטען מקומית מה־baseData
+  const [groups, setGroups] = useState([])
+  const [groupsLoading, setGroupsLoading] = useState(false)
 
-    const groups = useSelector(getGroups) || [];
+  useEffect(() => {
+    let cancelled = false
 
-const options = Array.isArray(groups)
-  ? groups.map(group => ({
-      name: group.name,
-      value: group._id
-    }))
-  : [];
+    const loadGroups = async () => {
+      try {
+        setGroupsLoading(true)
 
-  console.log('FORM VALUES', values);
+        const res = await fetch('/api/serverdata/baseData', {
+          method: 'GET',
+          credentials: 'include', // חשוב אם יש auth cookies
+          headers: { 'Accept': 'application/json' }
+        })
 
-    return (
-        <Modal
-        display={display}
-        toggleModal={setDisplay}
-        title="פרסום חדש">
-           <form
-  onSubmit={(e) => {
-    console.log('SUBMIT CLICK');
-    console.log('values at submit:', values);
-    console.log('errors at submit:', errors);
-    handleSubmit(e);
-  }}
->
+        if (!res.ok) throw new Error(`baseData failed: ${res.status}`)
 
-                <FormInput
-                name="title"
-                type="text"
-                label="כותרת"
-                value={values.title}
-                onChange={handleChange}
-                error={errors.title} />
+        const data = await res.json()
+        const nextGroups = Array.isArray(data?.groups) ? data.groups : []
 
-                <Editor
-                name="content"
-                value={values.content}
-                onChange={(value) =>
-                handleChange({
-                target: { name: 'content', value }
-                  })
-                }
-                />
+        if (!cancelled) setGroups(nextGroups)
+      } catch (e) {
+        console.error('Failed loading groups:', e)
+        if (!cancelled) setGroups([])
+      } finally {
+        if (!cancelled) setGroupsLoading(false)
+      }
+    }
 
-               <Dropdown
-               options={options}
-               name="group"
-               onChange={(value) =>
-               handleChange({ target: { name: 'group', value } })
-              }
-             placeholder="בחירה"
-             title="קבוצה"
-                />
+    // נטען רק כשהמודאל נפתח
+    if (display) loadGroups()
 
+    return () => { cancelled = true }
+  }, [display])
 
-                <Checkbox
-                label="שליחת מייל"
-                name="shouldEmail"
-                onChange={handleChange}
-                checked={values.shouldEmail} />
+  const options = Array.isArray(groups)
+    ? groups.map(g => ({ name: g.name, value: g._id }))
+    : []
 
-                <button type="submit">
-                    שליחה
-                </button>
-            </form>
-        </Modal>
-    )
+  return (
+    <Modal
+      display={display}
+      toggleModal={setDisplay}
+      title="פרסום חדש"
+    >
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          name="title"
+          type="text"
+          label="כותרת"
+          value={values.title}
+          onChange={handleChange}
+          error={errors.title}
+        />
+
+        <Editor
+          name="content"
+          value={values.content}
+          onChange={(value) =>
+            handleChange({ target: { name: 'content', value } })
+          }
+        />
+
+        <Dropdown
+          options={options}
+          name="group"
+          onChange={(value) =>
+            handleChange({ target: { name: 'group', value } })
+          }
+          placeholder={groupsLoading ? 'טוען קבוצות…' : 'בחירה'}
+          title="קבוצה"
+        />
+
+        <Checkbox
+          label="שליחת מייל"
+          name="shouldEmail"
+          onChange={handleChange}
+          checked={values.shouldEmail}
+        />
+
+        <button type="submit">
+          שליחה
+        </button>
+      </form>
+    </Modal>
+  )
 }
 
 export default AddAncForm
