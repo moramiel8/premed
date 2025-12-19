@@ -5,106 +5,94 @@ import TopLinks from './TopLinks';
 import { useLocation } from 'react-router-dom';
 import { Close } from '@material-ui/icons';
 
-const Modal = ({ 
-  display, 
-  toggleModal, 
-  children, 
-  title, 
-  subTitle, 
+const Modal = ({
+  display,
+  toggleModal,
+  children,
+  title,
+  subTitle,
   links,
   className,
-  noFrame })=> {
-    
-    /* We'll use ref of modal box, 
-    so when clicking outside it'll close */
-    const ref = useRef();
-    useOnClickOutside(ref, display, () => toggleModal(false))
+  noFrame
+}) => {
+  const ref = useRef();
+  useOnClickOutside(ref, display, () => toggleModal(false));
 
-    /* Prevent window overflow and disable outside scrolling 
-      when modal is open */
-    if(display) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.scroll = "no"
-    }
+  // lock scroll only while modal is open
+  useEffect(() => {
+    if (!display) return;
 
-    /* Cleanup window overflow disable and scrolling when 
-       modal closes */
-    else {
-      document.documentElement.style.overflow = 'auto';
-      document.body.scroll = "yes"
-    }
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    const prevBodyScroll = document.body.scroll;
 
-    const escapeModal = event => {
-      if(event.key === "Escape") {
-          toggleModal(false)
-      }
-    }
+    document.documentElement.style.overflow = 'hidden';
+    document.body.scroll = 'no';
 
-    const showOpacity = {
-      opacity: 1,
-      visibility: 'visible' 
-    }
-    
-    const hideOpacity = {
-      opacity: 0,
-      visibility: 'hidden'
-    }
+    return () => {
+      document.documentElement.style.overflow = prevHtmlOverflow || 'auto';
+      document.body.scroll = prevBodyScroll || 'yes';
+    };
+  }, [display]);
 
-    const noFrameStyle = {
-      paddingRight: 0,
-      paddingLeft: 0
-    }
+  const escapeModal = (event) => {
+    if (event.key === 'Escape') toggleModal(false);
+  };
 
-    // Close modal when url changes 
-    const location = useLocation()
+  const showOpacity = { opacity: 1, visibility: 'visible' };
+  const hideOpacity = { opacity: 0, visibility: 'hidden' };
 
-    useEffect(() => {
-      toggleModal(false)
-    }, [location])
+  const noFrameStyle = { paddingRight: 0, paddingLeft: 0 };
 
-    const selectLink = loc => {
-      if(links && links.selectLink) {
-        links.selectLink(loc)
-      }
-    }
+  // Close modal when url changes (but NOT on first mount)
+  const location = useLocation();
+  const prevPathRef = useRef(location.pathname + location.search + location.hash);
 
-    return (
-        <div 
-        className={`gen-modal ${className ? className : ''}`} 
-        style={display ? showOpacity : hideOpacity} 
-        onKeyPress={event => escapeModal(event)}>
-          <div 
-          className="modal-box" 
-          ref={ref}>
-            <div className="modal-header">
-              <span className="close-modal" onClick={() => toggleModal(false)}>
-                  <Close />
-              </span>
-              <p className="modal-titles">
-                <span className="modal-title">{title}</span>
-                <span className="modal-subtitle">{subTitle}</span>
-              </p>
-              {links?.linksList && 
-                <TopLinks 
-                onChoose={selectLink}
-                selected={links.selected}>
-                    {links.linksList.map(link => 
-                      <div 
-                      key={link.loc}
-                      id={link.loc}>
-                        {link.name}
-                      </div> )}
-                </TopLinks>}
-            </div>
-            <div 
-            style={noFrame ? noFrameStyle : {}}
-            className="modal-body">
-              {children}
-            </div>
-          </div>
+  useEffect(() => {
+    const current = location.pathname + location.search + location.hash;
+    if (prevPathRef.current === current) return;
+
+    if (display) toggleModal(false);
+    prevPathRef.current = current;
+  }, [location.pathname, location.search, location.hash, display, toggleModal]);
+
+  const selectLink = (loc) => {
+    if (links && links.selectLink) links.selectLink(loc);
+  };
+
+  return (
+    <div
+      className={`gen-modal ${className ? className : ''}`}
+      style={display ? showOpacity : hideOpacity}
+      onKeyDown={escapeModal}
+      tabIndex={-1}
+    >
+      <div className="modal-box" ref={ref}>
+        <div className="modal-header">
+          <span className="close-modal" onClick={() => toggleModal(false)}>
+            <Close />
+          </span>
+          <p className="modal-titles">
+            <span className="modal-title">{title}</span>
+            <span className="modal-subtitle">{subTitle}</span>
+          </p>
+          {links?.linksList && (
+            <TopLinks onChoose={selectLink} selected={links.selected}>
+              {links.linksList.map((link) => (
+                <div key={link.loc} id={link.loc}>
+                  {link.name}
+                </div>
+              ))}
+            </TopLinks>
+          )}
         </div>
-    )
-}
+
+        <div style={noFrame ? noFrameStyle : {}} className="modal-body">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 Modal.propTypes = {
   display: PropTypes.bool.isRequired,
@@ -112,6 +100,6 @@ Modal.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
   subTitle: PropTypes.string
-}
+};
 
 export default Modal;
