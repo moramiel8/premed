@@ -6,10 +6,13 @@ import StepsBlock from './StepsBlock'
 import TopSection from './TopSection'
 
 function StepsContent() {
-    const {
-        paths,
-        loading
-    } = useSelector(pathsSelector)
+    const { 
+        paths, 
+        loading 
+    } = 
+    useSelector((state) => 
+    state.paths)
+
 
     if(loading || !paths) {
         return <Loadbar />
