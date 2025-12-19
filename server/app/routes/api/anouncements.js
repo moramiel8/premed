@@ -57,27 +57,37 @@ router.get('/all/extended', [auth, authAdmin], (req, res, next) => {
 router.post('/', [auth, authAdmin], (req, res, next) => {
     const { 
         title,
-        content,
-        groupId
-    } = req.body;
+        content
+        } = req.body;
 
-    res.locals.model = modelName;
+    
+    const groupId = req.body.groupId ?? req.body.group?.value;
 
-    const userId = res.locals.user.id
+     res.locals.model = modelName;
+     const userId = res.locals.user.id;
+
+     if (!groupId) {
+    return res.status(400)
+    .json(
+        { msg: 'groupId is required' }
+    );
+  }
+
     // Create new anouncement
     const newAnc = new Anouncement({
-        title: title,
-        content: content,
-        userId: userId,
-        group: groupId
-    })
+    title,
+    content,
+    userId,
+    group: groupId
+  });
 
-    newAnc.save()
-        .then(anc => {
-            return res.send(anc)
-        })
-        .catch(next)
-})
+  newAnc.save()
+    .then(async (anc) => {
+      await anc.populate('group');
+      return res.json(anc);
+    })
+    .catch(next);
+});
 
 // @route   PUT api/anouncements/:id
 // @desc    Update anouncement
