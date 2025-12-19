@@ -9,19 +9,18 @@ const baseData = {
             _id: 'four-year'
         }
     ],
-    universities: [
+   universities: [
         {
             name: 'העברית',
             paths: ['six-year'],
             _id: 'huji',
-            color: '#148991'
+            color: '#850303'
         },
         {
             name: 'תל-אביב',
             paths: ['six-year', 'four-year'],
             _id: 'tau',
             color: '#222222'
-            // color: '#850303'
         },
         {
             name: 'טכניון',
@@ -36,8 +35,14 @@ const baseData = {
             color: '#f4921d'
         },
         {
+            name: 'חיפה',
+            paths: ['six-year'],
+            _id: 'haifa',
+            color: '#148991'
+        },
+           {
             name: 'בר אילן',
-            paths: ['four-year'],
+            paths: ['six-year', 'four-year'],
             _id: 'biu',
             color: '#004128'
         },
