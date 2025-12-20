@@ -28,6 +28,12 @@ export async function create(data, userId) {
 
   if (groupId) payload.group = groupId;
 
+  if (!groupId) {
+  const err = new Error('עליך לבחור קבוצה');
+  err.status = 400;
+  throw err;
+}
+
   const newAnc = new Announcement(payload);
   const saved = await newAnc.save();
 
@@ -48,6 +54,15 @@ export async function edit(id, data) {
   if (typeof groupId !== 'undefined') {
     anc.group = groupId || undefined;
   }
+
+
+  if (!groupId) {
+  const err = new Error('חייב לבחור קבוצה');
+  err.status = 400;
+  err.he = 'חייב לבחור קבוצה';
+  throw err;
+}
+
 
   await anc.save();
 

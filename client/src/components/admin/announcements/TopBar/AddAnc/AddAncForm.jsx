@@ -6,6 +6,9 @@ import FormInput from '../../../../common/FormInput'
 import Editor from '../../../../common/forms/Editor/Editor'
 import Dropdown from '../../../../common/Dropdown'
 import Checkbox from '../../../../common/Checkbox'
+import { useDispatch } from 'react-redux'
+import { setErrorMessage } from '../../../../../redux/actions/messages'
+
 
 function AddAncForm({ display, setDisplay }) {
   const [defaultValues] = useState({
@@ -17,8 +20,26 @@ function AddAncForm({ display, setDisplay }) {
 
   const { handleChange, handleSubmit, values, errors } = useForm(addAnc, defaultValues)
 
+  const dispatch = useDispatch()
+
   const [groups, setGroups] = useState([])
   const [loadingGroups, setLoadingGroups] = useState(false)
+
+  const onSubmit = async (e) => {
+  e.preventDefault()
+
+  if (!values.group?.value) {
+    dispatch(setErrorMessage('חייב לבחור קבוצה', 400))
+    return
+  }
+
+  try {
+     await handleSubmit(e)   
+    setDisplay(false)
+  } catch (err) {
+
+     }
+}
 
   useEffect(() => {
     let cancelled = false
@@ -51,7 +72,7 @@ function AddAncForm({ display, setDisplay }) {
 
   return (
     <Modal display={display} toggleModal={setDisplay} title="פרסום חדש">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <FormInput
           name="title"
           type="text"

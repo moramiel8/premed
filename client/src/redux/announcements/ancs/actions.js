@@ -6,7 +6,7 @@ import {
     ANC_UPDATE,
     ANC_DELETE
 } from './types';
-import { getError } from '../../actions/messages';
+import { getError, getMessage } from '../../actions/messages';
 import { api } from '../../../api';
 
 
@@ -87,13 +87,19 @@ export const addAnc = data => dispatch => {
   dispatch(ancLoad());
 
   return api
-    .post('/announcements', data) 
-    .then(res => dispatch(ancAdd(res.data)))
+    .post('/announcements', data)
+    .then(res => {
+      dispatch(ancAdd(res.data));
+      dispatch(getMessage({ he: 'הפרסום עלה בהצלחה' })); 
+      return res;
+    })
     .catch(err => {
       dispatch(ancError());
-      dispatch(getError(err));
+      dispatch(getError(err)); 
+      throw err;
     });
 };
+
 
 // Edit anouncement
 export const editAnc = (id, data) => dispatch => {
@@ -107,7 +113,8 @@ export const editAnc = (id, data) => dispatch => {
         .then(res => dispatch(ancUpdate(res.data)))
         .catch(err => {
             // Get message
-            getError(err)
+          dispatch(ancError());
+          dispatch(getError(err))
         })
 }
 
@@ -117,11 +124,13 @@ export const deleteAnc = id => dispatch => {
 
     api
         .delete(`/announcements/${id}`)
-        .then(res =>
-            // Get message 
+         .then(() => 
+              // Get message
             dispatch(ancDelete(id)))
         .catch(err => {
             // Get message
-            getError(err)
+            dispatch(ancError());
+            dispatch(getError(err))
+
         })
 }
