@@ -1,31 +1,41 @@
 import { Close } from '@material-ui/icons'
-import React, { Fragment, useCallback } from 'react'
-import { useTransition, animated } from 'react-spring'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+
+const EXIT_MS = 220
 
 function Alert({ display, closeAlert, isError, text }) {
   const handleClose = useCallback(() => {
     if (typeof closeAlert === 'function') closeAlert()
   }, [closeAlert])
 
-  const transitions = useTransition(display, {
-    from: { opacity: 0, transform: 'translate(-50%, 20px)' },
-    enter: { opacity: 1, transform: 'translate(-50%, 0px)' },
-    leave: { opacity: 0, transform: 'translate(-50%, 20px)' }
-  })
+  const [mounted, setMounted] = useState(Boolean(display))
+  const [visible, setVisible] = useState(Boolean(display))
+  const tRef = useRef(null)
+
+  useEffect(() => {
+    if (display) {
+      if (tRef.current) clearTimeout(tRef.current)
+      setMounted(true)
+      requestAnimationFrame(() => setVisible(true))
+    } else {
+      setVisible(false)
+      tRef.current = setTimeout(() => setMounted(false), EXIT_MS)
+    }
+
+    return () => {
+      if (tRef.current) clearTimeout(tRef.current)
+    }
+  }, [display])
+
+  if (!mounted) return null
 
   return (
-    <Fragment>
-      {transitions((style, item) =>
-        item ? (
-          <animated.div style={style} className={`alert ${isError ? 'error' : ''}`}>
-            <div onClick={handleClose} className="alert__close">
-              <Close />
-            </div>
-            <div className="alert__text">{text}</div>
-          </animated.div>
-        ) : null
-      )}
-    </Fragment>
+    <div className={`alert ${isError ? 'error' : ''} ${visible ? 'is-visible' : ''}`}>
+      <div onClick={handleClose} className="alert__close">
+        <Close />
+      </div>
+      <div className="alert__text">{text}</div>
+    </div>
   )
 }
 
