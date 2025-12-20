@@ -1,6 +1,6 @@
 import { Close } from '@material-ui/icons'
 import React, { Fragment, useCallback } from 'react'
-import { useTransition, animated } from '@react-spring/web'
+import { useTransition, animated } from 'react-spring'
 
 function Alert({ display, closeAlert, isError, text }) {
   const handleClose = useCallback(() => {

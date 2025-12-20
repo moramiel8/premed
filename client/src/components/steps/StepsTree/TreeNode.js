@@ -19,8 +19,10 @@ function TreeNode({ step, length, duplicateParent }) {
     ? isGroup ? length : length + 1 
     : length
 
-    const nodeWidth = {
-        width: (100/ratio) + '%'}
+   const nodeWidth = {
+  flex: '0 0 auto',
+  minWidth: windowWidth <= 650 ? '110px' : '140px'
+}
 
     const {
         getTreeColor

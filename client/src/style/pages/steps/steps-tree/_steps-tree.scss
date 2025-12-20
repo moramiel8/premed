@@ -20,12 +20,15 @@
 }
 
 .steps-level {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-shrink: 1;
-    flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 1rem;
 }
+
 
 .tree-node {
     position: relative;
