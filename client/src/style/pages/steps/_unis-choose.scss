@@ -20,8 +20,14 @@
 
 .unis-choose {
     display: flex;
+    flex-wrap: nowrap;
     column-gap: 2rem;
     justify-content: space-between;
     margin: 0 2rem;
     width: 45rem;
 }
+
+.unis-choose .checkbox-label {
+  white-space: nowrap;     
+}
+

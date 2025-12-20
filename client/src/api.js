@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "/api",
+  baseURL: 'https://refuah.io/api',
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });

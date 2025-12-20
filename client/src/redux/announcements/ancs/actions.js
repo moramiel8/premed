@@ -103,31 +103,36 @@ export const addAnc = data => dispatch => {
 
 // Edit anouncement
 export const editAnc = (id, data) => dispatch => {
-    dispatch(ancLoad());
+  dispatch(ancLoad());
 
-    api
-        .put(`/announcements/${id}`, data)
-        .then(res => dispatch(ancUpdate(res.data)))
-        .catch(err => {
-            // Get message
-          dispatch(ancError());
-          dispatch(getError(err))
-        })
-}
+  return api
+    .put(`/announcements/${id}`, data)
+    .then(res => {
+      dispatch(ancUpdate(res.data));
+      dispatch(getMessage({ he: 'עודכן בהצלחה' }));
+      return res;
+    })
+    .catch(err => {
+      dispatch(ancError());
+      dispatch(getError(err));
+      throw err;
+    });
+};
 
 // Delete anouncement
 export const deleteAnc = id => dispatch => {
-    dispatch(ancLoad());
+  dispatch(ancLoad());
 
-    api
-        .delete(`/announcements/${id}`)
-         .then(() => 
-              // Get message
-            dispatch(ancDelete(id)))
-        .catch(err => {
-            // Get message
-            dispatch(ancError());
-            dispatch(getError(err))
-
-        })
-}
+  return api
+    .delete(`/announcements/${id}`)
+    .then(res => {
+      dispatch(ancDelete(id));
+      dispatch(getMessage({ he: 'נמחק בהצלחה' }));
+      return res;
+    })
+    .catch(err => {
+      dispatch(ancError());
+      dispatch(getError(err));
+      throw err;
+    });
+};
