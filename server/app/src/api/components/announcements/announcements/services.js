@@ -29,7 +29,10 @@ export async function create(data, userId) {
   if (groupId) payload.group = groupId;
 
   const newAnc = new Announcement(payload);
-  return await newAnc.save();
+  const saved = await newAnc.save();
+
+  //  return with populated group
+  return await Announcement.findById(saved._id).populate('group');
 }
 
 export async function edit(id, data) {
@@ -47,7 +50,9 @@ export async function edit(id, data) {
   }
 
   await anc.save();
-  return anc;
+
+  // return with populated group
+  return await Announcement.findById(anc._id).populate('group');
 }
 
 export async function remove(id) {
