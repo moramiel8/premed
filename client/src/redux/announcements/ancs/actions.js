@@ -105,11 +105,8 @@ export const addAnc = data => dispatch => {
 export const editAnc = (id, data) => dispatch => {
     dispatch(ancLoad());
 
-    // Request body
-    const body = JSON.stringify(data)
-
     api
-        .put(`/announcements/${id}`, body)
+        .put(`/announcements/${id}`, data)
         .then(res => dispatch(ancUpdate(res.data)))
         .catch(err => {
             // Get message
