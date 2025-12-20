@@ -1,64 +1,63 @@
 import React, { useRef, useState } from 'react'
-import MoreVert from '@material-ui/icons/MoreVert'
-import Menu from '../../../../common/Menu/Menu'
-import EditAnc from './EditAnc'
-import VerifyDelete from '../../../../common/VerifyDelete'
-import { deleteAnc } from '../../../../../redux/announcements/ancs/actions'
-import useOnClickOutside from '../../../../common/useOnClickOutside'
+import { useDispatch } from 'react-redux';
+import { deleteComment } from '../../../../../../../redux/comments/actions';
+import Menu from '../../../../../../common/Menu/Menu';
+import MoreVert from '@material-ui/icons/MoreVert';
+import useOnClickOutside from '../../../../../../common/useOnClickOutside'
 
-function AncOptions({ anc }) {
-  const [displayMenu, setDisplayMenu] = useState(false)
-  const [displayDelete, setDisplayDelete] = useState(false)
-  const [displayEdit, setDisplayEdit] = useState(false)
+function CommentOptions({ 
+    allowed, 
+    toggleEdit, 
+    comment }) {
+    
+    const dispatch = useDispatch()
 
-  const openEdit = () => {
-    setDisplayEdit(true)
-    setDisplayMenu(false)
-  }
+    const removeComment = () => {
+        dispatch(deleteComment(comment._id))
+    }
 
-  const openDelete = () => {
-    setDisplayDelete(true)
-    setDisplayMenu(false)
-  }
+    const options = allowed 
+    ? [
+        {
+            name: "עריכה",
+            action: () => toggleEdit(true)
+        },
+        {
+            name: "מחיקה",
+            action: () => removeComment()
+        }
+    ]
+    : [
+        {
+            name: "דיווח",
+            action: () => {}
+        }
+    ]
 
-  const options = [
-    { name: 'עריכה', action: openEdit },
-    { name: 'מחיקה', action: openDelete }
-  ]
+    const [displayMenu, setDisplayMenu] = useState(false);
 
-  const ref = useRef(null)
-  useOnClickOutside(ref, displayMenu, () => setDisplayMenu(false))
 
-  return (
-    <div ref={ref} className="anc-item__top__options">
-      <MoreVert
-        onClick={() => setDisplayMenu(!displayMenu)}
-        style={{ fontSize: 20 }}
-      />
+    const ref = useRef(null)
+    useOnClickOutside(ref, displayMenu, () => setDisplayMenu(false))
 
-      <Menu display={displayMenu}>
-        {options.map((option, index) => (
-          <div key={index} onClick={option.action}>
-            {option.name}
-          </div>
-        ))}
-      </Menu>
+    return (
+        <div ref={ref}>
+            <div 
+            className="options-anchor"
+            onClick={() => setDisplayMenu(!displayMenu)}>
+                <MoreVert />
+            </div>
 
-      {/* ✅ Edit modal */}
-      <EditAnc
-        anc={anc}
-        display={displayEdit}
-        setDisplay={setDisplayEdit}
-      />
-
-      <VerifyDelete
-        callback={deleteAnc}
-        values={[anc._id]}
-        display={displayDelete}
-        toggleModal={setDisplayDelete}
-      />
-    </div>
-  )
+            <Menu
+            display={displayMenu}>
+                {options.map(option => 
+                    <div onClick={() => option.action()}>
+                        {option.name}
+                    </div>    
+                )}
+            </Menu>
+        </div>
+    )
 }
 
-export default AncOptions
+export default CommentOptions
