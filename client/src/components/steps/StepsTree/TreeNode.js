@@ -26,10 +26,10 @@ function TreeNode({ step, length, duplicateParent }) {
   const color = getTreeColor(step?.uniData)
 
   /* ---------- layout ---------- */
-  const nodeWidth = {
-    flex: '0 0 auto',
-    minWidth: windowWidth <= 650 ? '110px' : '140px',
-  }
+const nodeWidth = {
+  width: (100 / ratio) + '%'
+}
+
 
   const levelWidth = windowWidth <= 650 ? 150 : 300
   const width = nextSteps.length === 0 ? levelWidth : '100%'
