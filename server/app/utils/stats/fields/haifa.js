@@ -10,6 +10,7 @@ const fields = [
     {
         name: 'סטטוס קבלה',
         _id: 'acceptStatusHaifa',
+        threshField: true,
         dataType: dataTypes.str,
         fieldType: fieldTypes.select,
         paths: ['six-year'],

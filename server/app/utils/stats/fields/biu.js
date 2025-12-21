@@ -11,6 +11,7 @@ const fields = [
     {
         name: 'סטטוס קבלה',
         _id: 'acceptStatusBiuSix',
+        threshField: true,
         dataType: dataTypes.str,
         fieldType: fieldTypes.select,
         paths: ['six-year'],

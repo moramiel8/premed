@@ -198,6 +198,7 @@ const storedCalcs = [
             }
         ]
     }, 
+    
     {
         _id: "bagrutBgu",
         name: "ממוצע בגרות",
