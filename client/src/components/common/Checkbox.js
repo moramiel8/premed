@@ -63,7 +63,7 @@ function Checkbox({
                 }
             </div>
             <div className="checkbox-label">
-                {label}
+                 <span className="checkbox-label-text">{label}</span>
             </div>
         </div>
     )

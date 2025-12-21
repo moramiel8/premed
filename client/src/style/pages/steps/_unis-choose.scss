@@ -57,3 +57,26 @@
   white-space: normal !important;
   word-break: keep-all !important;
 }
+
+.checkbox-label-text {
+  display: inline-block;
+  max-width: 100%;
+  
+  word-break: keep-all !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  box-sizing: border-box;
+
+  flex-shrink: 0; 
+}
