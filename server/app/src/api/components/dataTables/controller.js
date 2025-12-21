@@ -72,7 +72,7 @@ class DataTableController {
             threshId
         } = req.params
 
-        const threshData = res.body
+        const threshData = req.body
 
         try {
             const threshold = await DataTableService.editThreshold(id, threshId, threshData)
