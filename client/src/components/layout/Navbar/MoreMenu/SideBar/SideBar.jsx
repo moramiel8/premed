@@ -23,6 +23,9 @@ function SideBar({ display, setDisplay }) {
   const user = useSelector(selectUser)
   const userdata = useSelector(userdataSelector)
 
+  console.log('userdataSelector ->', userdata)
+
+
   const lastUpdated =
     userdata?.data?.tableData?.last_updated || userdata?.data?.updatedAt
 
