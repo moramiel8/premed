@@ -13,13 +13,9 @@ class DataTableService {
         return DataTable.editTable(tableId, data)
     }
 
-    static async toggleEnabled(tableId) {
-        const table = await DataTable.toggleEnabled(tableId)
-
-        return {
-            enabled: table.enabled
-        }
-    }
+static async toggleEnabled(tableId) {
+  return DataTable.toggleEnabled(tableId)
+}
 
     static async addThreshold(tableId, threshData) {
         const table = await DataTable.addThreshold(tableId, threshData)

@@ -47,6 +47,8 @@ export async function editTable(tableId, data) {
 export async function toggleEnabled(tableId) {
     const table = await findByIdRequired(this, tableId)
 
+    let disabledTable = null
+
     /* If we are about to enable table (i.e.: currently disabled),
         find an already enabled table and disable it */
     if(!table.enabled) {
@@ -56,7 +58,7 @@ export async function toggleEnabled(tableId) {
         // First disable formerly enabled table
         if(tableToDisable) {
             tableToDisable.enabled = false
-            await tableToDisable.save()
+            disabledTable = await tableToDisable.save()
         }
 
         // Then enable the requested table
@@ -67,8 +69,12 @@ export async function toggleEnabled(tableId) {
         table.enabled = false
     }
 
-    return table.save()
+    const savedTable = await table.save()
+
+    // Always return an array so the client can iterate consistently
+    return disabledTable ? [disabledTable, savedTable] : [savedTable]
 }
+
 
 export async function addThreshold(tableId, threshData) {
     const {
