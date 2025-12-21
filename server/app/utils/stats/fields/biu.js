@@ -9,16 +9,42 @@ const {
 
 const fields = [
     {
+        name: 'סטטוס קבלה',
+        _id: 'acceptStatusBiuSix',
+        dataType: dataTypes.str,
+        fieldType: fieldTypes.select,
+        paths: ['six-year'],
+        uni: 'biu',
+        fieldOptions: [
+            {
+                name: 'קבלה',
+                value: 'accept',
+            },
+            {
+                name: 'המתנה',
+                value: 'pending',
+            },
+            {
+                name: 'דחייה',
+                value: 'reject',
+            }
+        ]
+    },
+    {
         name: 'סכם ראשוני',
         _id: 'biuInitialFour',
         threshField: true,
         dataType: dataTypes.num,
         fieldType: fieldTypes.textbox,
         paths: ['four-year'],
-        fractionDigits: 2,
         uni: 'biu',
         validators: [
             validationTypes.isPosNum,
+            {
+                ...validationTypes.numRange,
+                min: '150',
+                max: '250'
+            }
         ]
     },
     {
@@ -28,15 +54,19 @@ const fields = [
         dataType: dataTypes.num,
         fieldType: fieldTypes.textbox,
         paths: ['four-year'],
-        fractionDigits: 2,
         uni: 'biu',
         validators: [
             validationTypes.isPosNum,
+            {
+                ...validationTypes.numRange,
+                min: '150',
+                max: '250'
+            }
         ]
     },
     {
         name: 'סטטוס קבלה',
-        _id: 'acceptStatusBui',
+        _id: 'acceptStatusbiuFour',
         dataType: dataTypes.str,
         fieldType: fieldTypes.select,
         paths: ['four-year'],
