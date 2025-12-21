@@ -288,11 +288,16 @@ router.put('/:id/:threshId', [auth, authAdmin], (req, res, next) => {
 
                 const thresholds = table.thresholds
                 const editThresh = thresholds.id(threshId)
+
+                if (!editThresh) {
+                return res.status(404).send('Threshold not found')
+                    }
                 
-                const fieldThresholds = thresholds.filter(thresh =>
-                    thresh.field._id === editThresh.field._id && 
-                    thresh._id !== threshId)
-                
+               const fieldThresholds = thresholds.filter(thresh =>
+               String(thresh.field) === String(editThresh.field) &&
+               String(thresh._id) !== String(threshId)
+                    )
+
                 if(fieldThresholds.length > 1) {
                     // Validate date-value consistency only if value or date has changed
                     if (value !== editThresh.value 
@@ -325,17 +330,15 @@ router.put('/:id/:threshId', [auth, authAdmin], (req, res, next) => {
                     }
                 }
                 
-                editThresh.set({
-                    ...editThresh,
-                    threshType,
-                    date,
-                    isFinal,
-                    value
-                })
+                editThresh.threshType = threshType
+                editThresh.date = date
+                editThresh.isFinal = isFinal
+                editThresh.value = value
+
 
                 table.save()
                     .then(() => {
-                        return res.send(fieldThresholds)
+                        return res.send(table.thresholds)
                     })
                     .catch(next)
              })
