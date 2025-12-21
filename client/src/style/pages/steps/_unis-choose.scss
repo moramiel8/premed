@@ -10,8 +10,7 @@
   bottom: 0;
   right: 0;
   box-shadow: $default-shadow;
-  overflow-x: auto;
-  white-space: nowrap;
+
 
   @media only screen and (max-width: 450px) {
     justify-content: flex-start;
@@ -24,19 +23,24 @@
   column-gap: 2rem;
   justify-content: flex-start;
   margin: 0 2rem;
+  
   width: max-content;
+
+  overflow-x: auto;
+
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
-/* Fix: stop Hebrew letter-by-letter breaks (allow wrap only on spaces) */
 .unis-choose .checkbox-elem {
-  flex: 0 0 auto;   /* don't shrink items */
-  min-width: 0;
+  flex: 0 0 auto; 
+  min-width: 4rem; 
+  text-align: center;
 }
 
 .unis-choose .checkbox-label {
   display: block;
-  max-width: 6.5rem;     /* tune if needed */
-  text-align: center;
+  max-width: 6.5rem; 
   line-height: 1.1;
 
   overflow-wrap: normal !important;
@@ -45,7 +49,7 @@
   word-break: keep-all !important;
 }
 
-/* Keep your other nodes consistent too */
+/* Optional: Hebrew handling elsewhere */
 .tree-node-content .node-step-name,
 .tree-node-content .node-step-uni {
   overflow-wrap: normal !important;
