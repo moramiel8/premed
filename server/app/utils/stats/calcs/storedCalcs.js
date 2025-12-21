@@ -13,8 +13,9 @@ const {
 
 const {
     psycho, mor, bagrut, bagrutHuji, bagrutTau, bagrutTech, 
-    bagrutBgu, initialTau, finalTau, initialHuji, finalHuji,
-    initialTech, initialBgu
+    bagrutHaifa, bagrutBiu, bagrutBgu,
+     initialTau, finalTau, initialHuji, finalHuji,
+    initialTech, initialHaifa, initialBiu, initialBgu
 } = args
 
 const storedCalcs = [
