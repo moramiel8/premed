@@ -6,89 +6,76 @@ import * as staticMethods from '../src/api/components/stats/userData/db/methods'
 import { ConstructStaticMethods } from '../src/api/db/plugins';
 
 // Create schema
-const UserDataSchema = new Schema({
+const UserDataSchema = new Schema(
+  {
     user: {
-        type: ObjectId,
-        ref: 'User'
+      type: ObjectId,
+      ref: 'User'
     },
-    tables: [{
+    tables: [
+      {
         table: {
-            type: ObjectId,
-            ref: 'DataTable'
+          type: ObjectId,
+          ref: 'DataTable'
         },
-        paths: [{
-            type: String
-        }],
+
+        paths: [String],
+
         enabled: {
-            type: Boolean,
-            default: false
+          type: Boolean,
+          default: false
         },
-        dataVals: [{
-            field: {
-                type: String
-            },
-            cusGroupParent: {
-                type: String
-            },
-            isCalc: {
-                type: Boolean
-            },
-            value: {
-                type: Mixed
-            },
+
+        dataVals: [
+          {
+            field: String,
+            cusGroupParent: String,
+            isCalc: Boolean,
+            value: Mixed,
             otherValue: {
-                value: {
-                    type: Number
-                },
-                year: {
-                    type: Number
-                }
+              value: Number,
+              year: Number
             },
-            suggestValue: {
-                type: String
-            },
-            suggestedAccepted: {
-                type: Boolean
-            },
-            payload: {
-                type: Mixed
-            }
-        }],
-        groupVals: [{
-            field: {
-                type: String
-            },
-            group: {
-                type: String
-            },
-            cusGroupParent: {
-                type: String
-            },
-            isType: {
-                type: Boolean
-            },
-            value: {
-                type: String
-            }
-        }],
-        customGroups: [{
-            name: {
-                type: String
-            },
-            cusGroupParent: {
-                type: String
-            }
-        }],
+            suggestValue: String,
+            suggestedAccepted: Boolean,
+            payload: Mixed
+          }
+        ],
+
+        groupVals: [
+          {
+            field: String,
+            group: String,
+            cusGroupParent: String,
+            isType: Boolean,
+            value: String
+          }
+        ],
+
+        customGroups: [
+          {
+            name: String,
+            cusGroupParent: String
+          }
+        ],
+
         last_updated: {
-            type: Date,
-            default: Date.now 
+          type: Date,
+          default: Date.now
         }
-    }],
+      }
+    ],
+
     transfer_suggested: {
-        type: Boolean,
-        default: false 
+      type: Boolean,
+      default: false
     }
-});
+  },
+  {
+    timestamps: true   
+  }
+);
+
 
 UserDataSchema.plugin(
     ConstructStaticMethods, 

@@ -29,5 +29,20 @@
     }
 }
 
+.side-bar__last-updated {
+  opacity: 0.85;
+  margin: 1.25rem 0 0.75rem;
+  padding: 0 1rem;
+  text-align: center;
+  direction: rtl;
+  font-size: 0.85rem;
+  color: #8a8a8a;
+
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+
+
 @import "./SideBarLinks/index";
 @import "./Logout/index";
