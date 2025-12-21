@@ -25,6 +25,13 @@ const args = {
         _id: 'bagrutTech',
         type: 'calc'
     },
+    bagrutHaifa: {
+        _id: 'bagrutHaifa',
+        type: 'calc'
+    }, bagrutBiu: {
+        _id: 'bagrutBiu',
+        type: 'calc'
+    },
     bagrutBgu: {
         _id: 'bagrutBgu',
         type: 'calc'
@@ -47,6 +54,14 @@ const args = {
     },
     initialTech: {
         _id: 'initialTech',
+        type: 'calc'
+    },
+    initialHaifa: {
+        _id: 'initialHaifa',
+        type: 'calc'
+    },
+    initialBiu: {
+        _id: 'initialBiu',
         type: 'calc'
     },
     initialBgu: {

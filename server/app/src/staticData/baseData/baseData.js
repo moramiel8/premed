@@ -29,12 +29,6 @@ const baseData = {
             color: '#002861'
         },
         {
-            name: 'בן גוריון',
-            paths: ['six-year'],
-            _id: 'bgu',
-            color: '#f4921d'
-        },
-        {
             name: 'חיפה',
             paths: ['six-year'],
             _id: 'haifa',
@@ -51,7 +45,13 @@ const baseData = {
             paths: ['four-year'],
             _id: 'ariel',
             color: '#059394'
-        }
+        },
+         {
+            name: 'בן גוריון',
+            paths: ['six-year'],
+            _id: 'bgu',
+            color: '#f4921d'
+        },
     ]
 }
 
