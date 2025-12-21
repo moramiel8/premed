@@ -2,6 +2,7 @@ import { staticDataTypes } from '../../allowedTypes'
 import taufields from './tau';
 import bgufields from './bgu';
 import hujifields from './huji';
+import haifafields from './haifa';
 import techfields from './tech';
 import arielfields from './ariel';
 import biufields from './biu'
@@ -158,6 +159,7 @@ const fields = [
     ...bgufields,
     ...hujifields,
     ...techfields,
+    ...haifafields,
     ...arielfields,
     ...biufields
 ]
