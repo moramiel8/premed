@@ -142,7 +142,7 @@ router.put('/:id', [auth, authAdmin], (req, res, next) => {
 
       table
         .save()
-        .then((saved) => res.send(saved))
+        .then((saved) => res.send([saved]))
         .catch(next);
     })
     .catch(next);
