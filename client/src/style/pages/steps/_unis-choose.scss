@@ -24,17 +24,32 @@
   column-gap: 2rem;
   justify-content: flex-start;
   margin: 0 2rem;
-
-  width: max-content;    
+  width: max-content;
 }
 
-/*  Fix: stop Hebrew letter-by-letter breaks */
-.unis-choose .checkbox-label,
+/* Fix: stop Hebrew letter-by-letter breaks (allow wrap only on spaces) */
+.unis-choose .checkbox-elem {
+  flex: 0 0 auto;   /* don't shrink items */
+  min-width: 0;
+}
+
+.unis-choose .checkbox-label {
+  display: block;
+  max-width: 6.5rem;     /* tune if needed */
+  text-align: center;
+  line-height: 1.1;
+
+  overflow-wrap: normal !important;
+  word-wrap: normal !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+}
+
+/* Keep your other nodes consistent too */
 .tree-node-content .node-step-name,
 .tree-node-content .node-step-uni {
   overflow-wrap: normal !important;
-  word-break: normal !important;
   word-wrap: normal !important;
-  white-space: nowrap !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
 }
-
