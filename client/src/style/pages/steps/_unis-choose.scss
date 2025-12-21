@@ -1,6 +1,4 @@
-/* apply to both possibilities */
-.uni-container,
-.uni-container.client {
+.uni-container {
   position: fixed;
   width: 100%;
   height: 5rem;
@@ -15,11 +13,6 @@
   overflow-x: auto;
   white-space: nowrap;
 
-  /* override global body break-word */
-  overflow-wrap: normal !important;
-  word-wrap: normal !important;
-  word-break: keep-all !important;
-
   @media only screen and (max-width: 450px) {
     justify-content: flex-start;
   }
@@ -31,20 +24,17 @@
   column-gap: 2rem;
   justify-content: flex-start;
   margin: 0 2rem;
-  width: 45rem;
+
+  width: max-content;    
 }
 
-.unis-choose .checkbox-label {
-  white-space: nowrap !important;
-  overflow-wrap: normal !important;
-  word-wrap: normal !important;
-  word-break: keep-all !important;
-}
-
-/* also for the tree text */
+/*  Fix: stop Hebrew letter-by-letter breaks */
+.unis-choose .checkbox-label,
 .tree-node-content .node-step-name,
 .tree-node-content .node-step-uni {
   overflow-wrap: normal !important;
+  word-break: normal !important;
   word-wrap: normal !important;
-  word-break: keep-all !important;
+  white-space: nowrap !important;
 }
+
