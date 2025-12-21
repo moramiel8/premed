@@ -24,10 +24,13 @@ function SideBar({ display, setDisplay }) {
   const userdata = useSelector(userdataSelector)
 
   console.log('userdataSelector ->', userdata)
+  console.log('tableData keys', Object.keys(userdata.tableData || {}))
 
 
-  const lastUpdated =
-    userdata?.data?.tableData?.last_updated || userdata?.data?.updatedAt
+
+ const lastUpdated =
+  userdata?.tableData?.last_updated ||
+  userdata?.data?.updatedAt
 
   return (
     <SideMenu display={display} setDisplay={setDisplay}>
