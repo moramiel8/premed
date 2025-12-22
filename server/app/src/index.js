@@ -11,7 +11,8 @@ import path from 'path';
 import helmet from 'helmet';
 import errorHandler from '../middleware/errorHandler';
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') }); // Load env from server/.env
+dotenv.config({ path: path.resolve(__dirname, '../.env') }) // server/.env FIRST
+dotenv.config({ path: path.resolve(__dirname, '../../.env'), override: false }) // root fallback
 
 const app = express();
 app.set('trust proxy', 1);
@@ -27,7 +28,10 @@ if (!MONGO_URI) {
 }
 
 // CORS setup
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean)
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -44,7 +48,7 @@ app.use(cors({
 app.use(helmet());
 app.use(helmet.hidePoweredBy());
 
-app.use('/api/version', require('./routes/api/version'))
+app.use('/api/version', require('../routes/api/version'))
 
 // Middleware
 app.use(express.json());

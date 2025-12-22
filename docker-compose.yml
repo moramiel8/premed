@@ -5,7 +5,7 @@ services:
       context: ./client
       args:
         # Inject API URL into React during build
-        REACT_APP_API_URL: "https://refuah.io/api"
+        REACT_APP_API_URL: "/api"
     image: react-app
     restart: unless-stopped
     ports:
@@ -32,6 +32,8 @@ services:
       JWT_SECRET: "${JWT_SECRET}"
       JWT_SECRET_REFRESH: "${JWT_SECRET_REFRESH}"
       ALLOWED_ORIGINS: "https://refuah.io"
+      BUILD_TIME: "${BUILD_TIME}"
+      GIT_SHA: "${GIT_SHA}"
 
 
     command: ["sh", "-c", "node build/src/index.js"]
