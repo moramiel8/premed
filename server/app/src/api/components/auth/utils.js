@@ -52,8 +52,6 @@ export const clearRefreshCookie = (res) => {
   });
 };
 
-export const getAccessCookie = (req) => req.cookies?.
-[accessCookieSettings.name];
+export const getAccessCookie = (req) => req.cookies?.[accessCookieSettings.name];
 
-export const getRefreshCookie = (req) => req.cookies?.
-[refreshCookieSettings.name];
+export const getRefreshCookie = (req) => req.cookies?.[refreshCookieSettings.name];
