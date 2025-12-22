@@ -1,19 +1,14 @@
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-
-const refreshTokenExp = 31536000 // 1 year
-const accessTokenExp = 900 // 15 minutes
-const resetPasswordTokenExp = 600 // 10 minutes
-
 const isProd = process.env.NODE_ENV === 'production';
 
 const baseCookieOptions = {
   httpOnly: true,
-  secure: isProd,                 // חובה אם SameSite=None
+  secure: isProd,
   sameSite: isProd ? 'none' : 'lax',
-  // אם יש לך תרחיש של api.* מול www.* או תתי-דומיין:
   // domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
 };
+
+const refreshTokenExp = 31536000; // 1 year
+const accessTokenExp = 900;       // 15 minutes
 
 const refreshCookieSettings = {
   name: '_rt',
@@ -21,123 +16,44 @@ const refreshCookieSettings = {
     ...baseCookieOptions,
     path: '/api/auth/refreshToken',
     maxAge: refreshTokenExp * 1000,
-  }
+  },
 };
 
 const accessCookieSettings = {
   name: '_at',
   options: {
     ...baseCookieOptions,
-    path: '/',                     // שיהיה מפורש
+    path: '/',
     maxAge: accessTokenExp * 1000,
-  }
+  },
 };
 
-
-export const cookieSettings = {
-    access: accessCookieSettings,
-    refresh: refreshCookieSettings
-}
-
-export const hashString = async(string) => {
-    try {
-        if(string.length < 64) {
-            const salt = await bcrypt.genSalt(10)
-            return bcrypt.hash(string, salt)
-        }
-
-        else {
-            throw new Error("User tried to insert password greater than 64.")
-        }
-    }
-
-    catch(err) {
-        throw err
-    }
-}
-
-export const verifyAccessToken = token => {
-    return jwt.verify(token, process.env.JWT_SECRET)
-}
-
-export const verifyRefreshToken = token => {
-    return jwt.verify(token, process.env.JWT_SECRET_REFRESH)
-}
-
-export const verifyPasswordToken = token => jwt.verify(token, process.env.JWT_SECRET_RESET);
-
-
-export const createAccessToken = payload => {
-    return jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: accessTokenExp })
-}
-
-export const createRefreshToken = payload => {
-    return jwt.sign(
-        payload,
-        process.env.JWT_SECRET_REFRESH,
-        { expiresIn: refreshTokenExp })
-}
-
-export const createPasswordResetToken = (payload) => jwt.sign(
-	payload,
-        process.env.JWT_SECRET_RESET,
-        { expiresIn: resetPasswordTokenExp },
-);
-
 export const createAccessCookie = (res, token) => {
-    return res.cookie(
-        accessCookieSettings.name, 
-        token, 
-        accessCookieSettings.options
-    )
-}
+  return res.cookie(accessCookieSettings.name, token, 
+    accessCookieSettings.options);
+};
 
 export const createRefreshCookie = (res, token) => {
-    return res.cookie(
-        refreshCookieSettings.name, 
-        token, 
-        refreshCookieSettings.options
-    )
-}
+  return res.cookie(refreshCookieSettings.name, token, 
+    refreshCookieSettings.options);
+};
 
-export const clearAccessCookie = req => {
-    return req.clearCookie(
-        accessCookieSettings.name,  
-        accessCookieSettings.options
-    )
-}
+export const clearAccessCookie = (res) => {
+  return res.clearCookie(accessCookieSettings.name, {
+    ...baseCookieOptions,
+    path: accessCookieSettings.options.path,
+  });
+};
 
-export const clearRefreshCookie = req => {
-    return req.clearCookie(
-        refreshCookieSettings.name,  
-        refreshCookieSettings.options
-    )
-}
+export const clearRefreshCookie = (res) => {
+  return res.clearCookie(refreshCookieSettings.name, {
+    ...baseCookieOptions,
+    path: refreshCookieSettings.options.path,
+  });
+};
 
-export const getAccessCookie = res => {
-    return res.cookies[accessCookieSettings.name]
-}
+export const getAccessCookie = (req) => req.cookies?.
+[accessCookieSettings.name];
 
-export const getRefreshCookie = res => {
-    return res.cookies[refreshCookieSettings.name]
-}
-
-
-export const compareBcrypt = (string, hash) => {
-    return bcrypt.compare(string, hash)
-}
-
-export const userWithoutPassword = user => {
-    const {
-        password,
-        formerPasswords,
-        failedAttempts,
-        blocked,
-        ...newUser
-    } = user.toObject()
-
-    return newUser
-}
+export const getRefreshCookie = (req) => req.cookies?.
+[refreshCookieSettings.name];
