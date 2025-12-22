@@ -23,18 +23,17 @@ function SideBar({ display, setDisplay }) {
   const user = useSelector(selectUser)
   const [buildTime, setBuildTime] = React.useState(null)
 
-  RReact.useEffect(() => {
-  let mounted = true
+  React.useEffect(() => {
+    let mounted = true
 
-  api.get('/version')
-    .then((res) => {
-      if (mounted) setBuildTime(res.data?.buildTime || null)
-    })
-    .catch(() => {})
+    api.get('/version')
+      .then((res) => {
+        if (mounted) setBuildTime(res.data?.buildTime || null)
+      })
+      .catch(() => {})
 
-  return () => { mounted = false }
-}, [])
-
+    return () => { mounted = false }
+  }, [])
 
   return (
     <SideMenu display={display} setDisplay={setDisplay}>
