@@ -31,7 +31,7 @@ services:
       MONGO_URI: "mongodb://${DB_USER}:${DB_PASS}@mongodb:27017/${DB_NAME}?authSource=admin"
       JWT_SECRET: "${JWT_SECRET}"
       JWT_SECRET_REFRESH: "${JWT_SECRET_REFRESH}"
-      ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:8080,https://refuah.io"
+      ALLOWED_ORIGINS: "https://refuah.io"
 
 
     command: ["sh", "-c", "node build/src/index.js"]
