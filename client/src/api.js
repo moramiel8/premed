@@ -1,10 +1,15 @@
+// client/src/api.js
+
 import axios from "axios";
 
+const apiBase = process.env.REACT_APP_API_URL || "http://localhost:5001/api";
+
 export const api = axios.create({
-  baseURL: 'https://refuah.io/api',
+  baseURL: apiBase,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
+
 
 let isRefreshing = false;
 let queue = [];

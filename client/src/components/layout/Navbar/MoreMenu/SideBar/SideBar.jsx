@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import { selectUser } from '../../../../../redux/selectors/auth'
 import SideMenu from '../../../SideMenu/SideMenu'
 import Logout from './Logout/Logout'
+import { api } from '../../../../../api'
 import SideBarLinks from './SideBarLinks/SideBarLinks'
-import { userdataSelector } from '../../../../../redux/selectors/userdata'
 
 const formatLastEdited = (dateString) => {
   if (!dateString) return null
@@ -21,16 +21,20 @@ const formatLastEdited = (dateString) => {
 
 function SideBar({ display, setDisplay }) {
   const user = useSelector(selectUser)
-  const userdata = useSelector(userdataSelector)
+  const [buildTime, setBuildTime] = React.useState(null)
 
-  console.log('userdataSelector ->', userdata)
-  console.log('tableData keys', Object.keys(userdata.tableData || {}))
+  RReact.useEffect(() => {
+  let mounted = true
 
+  api.get('/version')
+    .then((res) => {
+      if (mounted) setBuildTime(res.data?.buildTime || null)
+    })
+    .catch(() => {})
 
+  return () => { mounted = false }
+}, [])
 
- const lastUpdated =
-  userdata?.tableData?.last_updated ||
-  userdata?.data?.updatedAt
 
   return (
     <SideMenu display={display} setDisplay={setDisplay}>
@@ -43,15 +47,15 @@ function SideBar({ display, setDisplay }) {
             >
               <Close style={{ fontSize: 20 }} />
             </div>
-            <span>{`שלום, ${user.firstName}`}</span>
+            <span>{`שלום, ${user?.firstName || ''}`}</span>
           </div>
           <SideBarLinks />
         </div>
 
         <div className="side-bar__bottom">
-          {lastUpdated && (
+          {buildTime && (
             <div className="side-bar__last-updated">
-              {formatLastEdited(lastUpdated)}
+              {formatLastEdited(buildTime)}
             </div>
           )}
           <Logout />
