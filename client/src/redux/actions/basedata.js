@@ -1,6 +1,7 @@
 import {
   BASE_DATA_SUCCESS,
   STATS_INPUTS_LOADING,
+  BASE_DATA_FAILURE,
   STATS_INPUTS_SUCCESS,
   GET_TABLE_SECTIONS,
   BASE_DATA_LOADING
@@ -15,6 +16,7 @@ export const getBaseData = () => async (dispatch) => {
     const res = await api.get('/serverdata/baseData');
     dispatch({ type: BASE_DATA_SUCCESS, payload: res.data });
   } catch (err) {
+    dispatch({ type: BASE_DATA_FAILURE });
     dispatch(getError(err));
   }
 };

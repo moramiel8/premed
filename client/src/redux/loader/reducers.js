@@ -29,7 +29,7 @@ const setLoader = (state, requestStatus, loader) => {
 
 const initialState = {
     [GET_USER]: {
-        status: LOADING
+        status: null
     }
 }
 

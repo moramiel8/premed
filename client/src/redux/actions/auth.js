@@ -45,11 +45,15 @@ export const logout = () => dispatch =>
 // Get user
 export const getUser = () => dispatch => {
   dispatch(setLoader(GET_USER_LOADING));
-  api.get('/auth/user')
-    .then(res => dispatch({ type: GET_USER_SUCCESS, payload: res.data }))
-    .catch(() => dispatch({ type: GET_USER_FAILURE }));
-};
 
+  api.get('/auth/user')
+    .then(res =>
+      dispatch({ type: GET_USER_SUCCESS, payload: res.data })
+    )
+    .catch(() =>
+      dispatch({ type: GET_USER_FAILURE, payload: null }) 
+    );
+};
 
 
 // Get users

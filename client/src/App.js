@@ -31,9 +31,10 @@ useEffect(() => {
 
 const isBaseLoading = useSelector(isLoading(BASE_DATA))
 const isUserLoading = useSelector(isLoading(GET_USER))
-// const auth = useSelector(authSelector)  
 
-if (isBaseLoading || isUserLoading) return <Loadbar loadfull={true} />
+if (isBaseLoading || isUserLoading) {
+  return <Loadbar loadfull />
+}
 
     return (
         <BrowserRouter>
