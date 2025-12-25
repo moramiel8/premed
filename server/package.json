@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node build/src/index.js",
     "build": "babel app -d build",
-    "dev": "nodemon app/src/index.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node app/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

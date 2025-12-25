@@ -29,11 +29,11 @@ useEffect(() => {
 
     moment.locale("he");
 
-    const isBaseLoading = useSelector(isLoading(BASE_DATA))
-    const isUserLoading = useSelector(isLoading(GET_USER))
-    const auth = useSelector(authSelector)
+const isBaseLoading = useSelector(isLoading(BASE_DATA))
+const isUserLoading = useSelector(isLoading(GET_USER))
+// const auth = useSelector(authSelector)  
 
-    if(!auth || isBaseLoading || isUserLoading) return <Loadbar loadfull={true} />
+if (isBaseLoading || isUserLoading) return <Loadbar loadfull={true} />
 
     return (
         <BrowserRouter>
