@@ -2,19 +2,18 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const baseCookieOptions = {
   httpOnly: true,
-  secure: isProd,
-  sameSite: isProd ? 'none' : 'lax',
-  // domain: isProd ? process.env.COOKIE_DOMAIN : undefined,
+  secure: true,        
+  sameSite: 'none',      
 };
 
-const refreshTokenExp = 31536000; // 1 year
-const accessTokenExp = 900;       // 15 minutes
+const refreshTokenExp = 31536000;
+const accessTokenExp = 900;
 
 const refreshCookieSettings = {
   name: '_rt',
   options: {
     ...baseCookieOptions,
-    path: '/api/auth/refreshToken',
+    path: '/api',       
     maxAge: refreshTokenExp * 1000,
   },
 };
@@ -28,30 +27,23 @@ const accessCookieSettings = {
   },
 };
 
-export const createAccessCookie = (res, token) => {
-  return res.cookie(accessCookieSettings.name, token, 
-    accessCookieSettings.options);
-};
+export const createAccessCookie = (res, token) =>
+  res.cookie(accessCookieSettings.name, token, accessCookieSettings.options);
 
-export const createRefreshCookie = (res, token) => {
-  return res.cookie(refreshCookieSettings.name, token, 
-    refreshCookieSettings.options);
-};
+export const createRefreshCookie = (res, token) =>
+  res.cookie(refreshCookieSettings.name, token, refreshCookieSettings.options);
 
-export const clearAccessCookie = (res) => {
-  return res.clearCookie(accessCookieSettings.name, {
+export const clearAccessCookie = (res) =>
+  res.clearCookie(accessCookieSettings.name, {
     ...baseCookieOptions,
-    path: accessCookieSettings.options.path,
+    path: '/',
   });
-};
 
-export const clearRefreshCookie = (res) => {
-  return res.clearCookie(refreshCookieSettings.name, {
+export const clearRefreshCookie = (res) =>
+  res.clearCookie(refreshCookieSettings.name, {
     ...baseCookieOptions,
-    path: refreshCookieSettings.options.path,
+    path: '/api',
   });
-};
 
-export const getAccessCookie = (req) => req.cookies?.[accessCookieSettings.name];
-
-export const getRefreshCookie = (req) => req.cookies?.[refreshCookieSettings.name];
+export const getAccessCookie = (req) => req.cookies?._at;
+export const getRefreshCookie = (req) => req.cookies?._rt;
